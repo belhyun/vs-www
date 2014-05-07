@@ -1,7 +1,6 @@
 class User < ActiveRecord::Base
   attr_protected
   before_create :gen_token, :gen_expires, :gen_identity
-  #attr_accessor :expires
   def gen_token
     self.acc_token = loop do
       random_token = SecureRandom.urlsafe_base64(nil, false)
@@ -14,7 +13,7 @@ class User < ActiveRecord::Base
   def gen_identity
     case mem_type
     when 'G'
-      self.name = self.nickname = "GUEST_#{User.maximum('id').to_i + 1}"
+      self.name = "GUEST_#{User.maximum('id').to_i + 1}"
       self.email = "GUEST_#{User.maximum('id').to_i + 1}@versus.com"
     end
   end

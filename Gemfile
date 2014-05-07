@@ -50,3 +50,7 @@ gem 'omniauth-twitter'
 gem 'mysql2'
 gem 'protected_attributes'
 gem 'gon'
+gem 'underscore-rails'
+gem 'activeadmin', github: 'gregbell/active_admin', branch: 'rails4'
+gem "paperclip", "~> 3.5.3"
+gem 'will_paginate', '~> 3.0'

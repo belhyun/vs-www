@@ -23,8 +23,7 @@ class SessionsController < ApplicationController
   end
 
   def guest
-    gon.user = User.create(:mem_type => GUEST, :money => APP_CONFIG['seed_money'])
-    gon.user = User.find_by_id(100)
+    gon.user = User.create(:mem_type => GUEST, :money => APP_CONFIG['seed_money'],:nickname => params.permit(:nick)[:nick])
     respond_to do |format|
       format.html {render layout: false}
       format.js {render layout: false}
