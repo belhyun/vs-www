@@ -1,0 +1,8 @@
+defaults: &defaults
+  twitter_key: "qPKi8TGEMTlJSd7Eip9X9MSUr"
+  twitter_secret: "Le3WT2GBbgmUXkmnCfx9fZ8vVgSrjVQWH6Qgyx2ffEKMc3MWbu"
+  seed_money: 1000
+development:
+  <<: *defaults
+production:
+  <<: *defaults
