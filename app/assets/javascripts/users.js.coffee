@@ -16,6 +16,7 @@
         alert($_.ERR_MSG.NICK_DUP)
         return
       args.fail = ->
-        $_.redirect("/auth/guest?nick="+$(".form-control").val())
+        uri = new URI(document.URL).query(true)
+        $_.redirect("/auth/guest?nick="+$(".form-control").val()+"&acc_token="+uri.acc_token)
       $_.ajax(args)
 ).call this, window
