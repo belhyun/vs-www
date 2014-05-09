@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   attr_protected
   before_create :gen_token, :gen_expires, :gen_identity
+  before_update :gen_token, :gen_expires
   def gen_token
     self.acc_token = loop do
       random_token = SecureRandom.urlsafe_base64(nil, false)

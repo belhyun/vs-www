@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 (($_) ->
   $(document).ready ->
-    $(".modal-dialog .modal-footer .btn-primary").click -> 
+    $(".modal-dialog .modal-footer .btn-primary").click ->
       if(_.isStrEmpty($(".form-control").val()))
         alert($_.ERR_MSG.NICK_EMPTY)
         return
