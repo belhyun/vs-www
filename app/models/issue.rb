@@ -1,24 +1,22 @@
 class Issue < ActiveRecord::Base
+  PER_PAGE = 2
   attr_protected
-  attr_accessor :image_url, :image
-  has_attached_file :image, :styles => { :xlarge => "180x180#", :large => "130x130#", :medium => "104x104#", :small => "45x45#" },
-    :url => "/images/issues/:id/:id_:style.jpeg"
-  before_validation :download_remote_image, :if => :image_url_provided?
-
-  def image_url_provided?
-    !self.image_url.blank? 
+  has_many :photos
+  accepts_nested_attributes_for :photos, :allow_destroy => true
+  
+  def total_cnt
+    Issue.count
   end
 
-  def download_remote_image
-    self.image = do_download_remote_image
-    #self.image_remote_url = image_url
+  def per_page
+    PER_PAGE
   end
 
-  def do_download_remote_image
-    io = open(URI.parse(image_url))
-    def io.original_filename; base_uri.path.split('/').last; end
-    io.original_filename.blank? ? nil : io
-  rescue # catch url errors with validations instead of exceptions (Errno::ENOENT, OpenURI::HTTPError, etc...)
+  def as_json(options = {})
+    h = super(options)
+    h[:total_cnt] = Issue.count
+    h[:per_page] = PER_PAGE
+    h[:page] = options[:page].to_i
+    h
   end
-
 end

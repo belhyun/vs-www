@@ -26,6 +26,7 @@ VsWww::Application.configure do
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
   config.assets.debug = true
+  config.host = "http://14.63.198.222:9999"
 
   Paperclip.options[:command_path] = "/usr/bin/"
 end

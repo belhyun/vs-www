@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140507120510) do
+ActiveRecord::Schema.define(version: 20140513094015) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -47,15 +47,23 @@ ActiveRecord::Schema.define(version: 20140507120510) do
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "issues", force: true do |t|
-    t.string   "title"
-    t.text     "description"
-    t.date     "end_date"
-    t.integer  "stock_count"
+    t.string  "title"
+    t.text    "description"
+    t.date    "end_date"
+    t.integer "stock_count", default: 0
+  end
+
+  create_table "photos", force: true do |t|
+    t.integer  "issue_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "image_file_name"
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
   end
+
+  add_index "photos", ["issue_id"], name: "index_photos_on_issue_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "name"
