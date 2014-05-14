@@ -14,9 +14,5 @@ class Issue < ActiveRecord::Base
 
   def as_json(options = {})
     h = super(options)
-    h[:total_cnt] = Issue.count
-    h[:per_page] = PER_PAGE
-    h[:page] = options[:page].to_i
-    h
   end
 end
