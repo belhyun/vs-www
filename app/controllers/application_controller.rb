@@ -19,6 +19,7 @@ class ApplicationController < ActionController::Base
 
   def user_exist?
     !!@userId
+    true
   end
 
   def is_auth?
