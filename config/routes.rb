@@ -17,6 +17,17 @@ VsWww::Application.routes.draw do
   end
 
   resources :issues do
+    collection do
+      get 'open'
+      get 'closed'
+    end
+  end
+
+  resources :stocks do
+    member do
+      post 'buy'
+      post 'sell'
+    end
   end
 
 
