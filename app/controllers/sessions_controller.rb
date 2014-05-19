@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
                            :money => APP_CONFIG['seed_money'], :nickname => info[:info][:nickname])
                   .find_or_create_by(:email => "#{info[:info][:name]}@twitter.com")
         else
-          gon.user = User.update(@userId,:acc_token => User.new.gen_token, :expires => User.new.gen_expires) 
+          gon.user = User.update(@user_id,:acc_token => User.new.gen_token, :expires => User.new.gen_expires) 
         end
       when 'facebook'
         if !user_exist?
@@ -23,7 +23,7 @@ class SessionsController < ApplicationController
                            :money => APP_CONFIG['seed_money'], :nickname => info[:info][:name])
                   .find_or_create_by(:email => info[:info][:email])
         else
-          gon.user = User.update(@userId,:acc_token => User.new.gen_token, :expires => User.new.gen_expires) 
+          gon.user = User.update(@user_id,:acc_token => User.new.gen_token, :expires => User.new.gen_expires) 
         end
       end
     end
@@ -34,7 +34,7 @@ class SessionsController < ApplicationController
     if !user_exist?
       gon.user = User.create(:mem_type => GUEST, :money => APP_CONFIG['seed_money'],:nickname => params.permit(:nick)[:nick])
     else
-      gon.user = User.update(@userId,:acc_token => User.new.gen_token, :expires => User.new.gen_expires) 
+      gon.user = User.update(@user_id,:acc_token => User.new.gen_token, :expires => User.new.gen_expires) 
     end
     respond_to do |format|
       format.html {render layout: false}
