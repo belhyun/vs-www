@@ -6,19 +6,19 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
 
   def get_user_id_from_acc_token
-    @userId = nil
+    @user_id = nil
     if params.has_key?("acc_token")
       @user = User.find(:first, :conditions => ["acc_token = ? AND expires >= ?",params[:acc_token], Time.now])
-      @userId = @user.id unless @user.nil?
+      @user_id = @user.id unless @user.nil?
     elsif env.has_key?('omniauth.auth') && !env['omniauth.auth'][:uid].nil?
       @user = User.find(:first, :conditions => ["sns_id = ? AND expires >= ?",env['omniauth.auth']['uid'], Time.now])
-      @userId = @user.id unless @user.nil?
+      @user_id = @user.id unless @user.nil?
     end
-    @userId
+    @user_id
   end
 
   def user_exist?
-    !!@userId
+    !!@user_id
     true
   end
 
