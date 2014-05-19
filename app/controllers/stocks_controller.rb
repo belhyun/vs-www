@@ -1,6 +1,7 @@
 class StocksController < ApplicationController
   skip_before_filter :verify_authenticity_token
   before_action :stock
+  before_action :validate
   def buy
     stock_id = buy_params[:id]
     issue_id = stock.issue.id
@@ -29,14 +30,40 @@ class StocksController < ApplicationController
   end
 
   def sell
+    stock_id = buy_params[:id]
+    issue_id = stock.issue.id
+    stock_amounts = buy_params[:stock_amounts].to_i
+    case result = User.sell_status(@user_id, stock_id, stock_amounts)
+    when Code::MSG[:success]
+      user_stock = UserStock.find(:first, :conditions => ["user_id = ? and stock_id = ? and issue_id = ?",@user_id, stock_id, issue_id])
+      if UserStock.sell_stocks(@user_id, stock_id, stock_amounts) && User.sell_stocks(@user_id, @stock.money, stock_amounts) && Stock.update_money(stock_id)
+         result = success(UserStock.find_by_id(user_stock.id).as_json(:include => [:user, :stock, :issue]))
+         result[:body][:sell_stock_amounts] = stock_amounts
+         render :json => result and return
+      end
+    when Code::MSG[:user_has_no_stock]
+    when Code::MSG[:user_stock_lack]
+      render :json => fail(result) and return
+    end
   end
 
   private
   def buy_params
     params.permit(:id, :acc_token, :stock_amounts)
   end
+  
+  def sell_params
+    params.permit(:id, :acc_token, :stock_amounts)
+  end
+
 
   def stock
     @stock = Stock.find_by_id(params[:id])
+  end
+
+  def validate
+    if !params.has_key?(:stock_amounts) || params[:stock_amounts].to_i == 0
+      render :json => fail(Code::MSG[:stock_amounts_is_invaild]) and return
+    end
   end
 end

@@ -41,7 +41,23 @@ class User < ActiveRecord::Base
     result
   end
 
+  def self.sell_status(user_id, stock_id, stock_amounts)
+    user_stock_amounts = UserStock.select(:stock_amounts).where(:user_id => user_id, :stock_id => stock_id)
+    if user_stock_amounts.blank?
+      result = Code::MSG[:user_has_no_stock]
+    elsif user_stock_amounts.first.stock_amounts < stock_amounts
+      result = Code::MSG[:user_stock_lack]
+    else
+      result = Code::MSG[:success]
+    end
+    result
+  end
+
   def self.buy_stocks(user_id, stock_money, stock_amounts)
     User.find_by_id(user_id).increment!(:money, -stock_money * stock_amounts)
+  end
+
+  def self.sell_stocks(user_id, stock_money, stock_amounts)
+    User.find_by_id(user_id).increment!(:money, stock_money*stock_amounts*(1-Code::COMMISION))
   end
 end

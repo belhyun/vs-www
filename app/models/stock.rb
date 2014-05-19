@@ -15,4 +15,5 @@ class Stock < ActiveRecord::Base
     user_stock = UserStock.find(:first, :conditions => ["stock_id = ? AND user_id = ?",id, Stock.user_id])
     if user_stock.nil? then 0 else user_stock.stock_amounts end
   end
+
 end
