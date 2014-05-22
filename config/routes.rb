@@ -13,6 +13,7 @@ VsWww::Application.routes.draw do
   resources :users do
     collection do
       post 'nick'
+      post 'image'
     end
   end
 

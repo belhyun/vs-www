@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140515061625) do
+ActiveRecord::Schema.define(version: 20140520163023) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -50,8 +50,24 @@ ActiveRecord::Schema.define(version: 20140515061625) do
     t.string  "title"
     t.text    "description"
     t.date    "end_date"
-    t.integer "stock_count", default: 0
+    t.integer "stocks_count", default: 0
   end
+
+  create_table "log_user_stocks", force: true do |t|
+    t.integer  "type"
+    t.integer  "stock_amounts"
+    t.integer  "user_id"
+    t.integer  "stock_id"
+    t.integer  "issue_id"
+    t.integer  "user_money"
+    t.integer  "day"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "log_user_stocks", ["issue_id"], name: "index_log_user_stocks_on_issue_id", using: :btree
+  add_index "log_user_stocks", ["stock_id"], name: "index_log_user_stocks_on_stock_id", using: :btree
+  add_index "log_user_stocks", ["user_id"], name: "index_log_user_stocks_on_user_id", using: :btree
 
   create_table "photos", force: true do |t|
     t.integer  "issue_id"
@@ -80,12 +96,12 @@ ActiveRecord::Schema.define(version: 20140515061625) do
   create_table "user_stocks", force: true do |t|
     t.integer  "user_id"
     t.integer  "stock_id"
-    t.integer  "issue_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "issue_id"
+    t.integer  "stock_amounts"
   end
 
-  add_index "user_stocks", ["issue_id"], name: "index_user_stocks_on_issue_id", using: :btree
   add_index "user_stocks", ["user_id"], name: "index_user_stocks_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
@@ -98,7 +114,11 @@ ActiveRecord::Schema.define(version: 20140515061625) do
     t.datetime "expires"
     t.integer  "money"
     t.string   "nickname"
-    t.string   "mem_type",  limit: 10
+    t.string   "mem_type",           limit: 10
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
   end
 
 end
