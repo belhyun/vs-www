@@ -4,6 +4,11 @@ class User < ActiveRecord::Base
   #before_update :gen_token, :gen_expires, :if =>  
   has_many :stocks, :through => :userStocks
   has_many :userStocks
+  has_many :logUserStocks
+  attr_accessor :image
+  has_attached_file :image, :styles => { :xlarge => "180x180#", :large => "130x130#", :medium => "768x200#", :small => "45x45#" },
+    :url => "/images/photos/:id/:id_:style.:extension"
+  scope :user_money , lambda {|user_id| find_by_id(user_id).money}
 
   def gen_token
     self.acc_token = loop do

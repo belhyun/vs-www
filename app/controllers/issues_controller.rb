@@ -18,7 +18,7 @@ class IssuesController < ApplicationController
   def open
     Stock.user_id = @user_id
     @issues = Issue.open.paginate(:page => params[:page], :per_page => Issue::PER_PAGE)
-    .as_json(:include => [{:stocks => {:methods => :user_stock_cnt}}, :photos => {:methods => [:medium,:large,:xlarge], :except => [:image_content_type, :image_file_name, :image_file_size, :image_updated_at]}])
+    .as_json(:methods => [:last_week_stock_amounts, :this_week_stock_amounts, :total_stock_amounts], :include => [{:stocks => {:methods => :user_stock_cnt}}, :photos => {:methods => [:medium,:large,:xlarge], :except => [:image_content_type, :image_file_name, :image_file_size, :image_updated_at]}])
     respond_to do |format|
       if is_auth?
         @success = success(@issues)
