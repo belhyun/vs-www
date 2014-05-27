@@ -56,3 +56,6 @@ gem "paperclip", "~> 3.5.3"
 gem 'will_paginate', '~> 3.0'
 gem 'underscore-string-rails'
 gem 'uri-js-rails', '~> 1.11.2'
+gem 'open_uri_redirections'
+gem 'whenever'
+gem 'time_diff'

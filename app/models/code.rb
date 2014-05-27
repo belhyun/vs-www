@@ -8,9 +8,14 @@ class Code
     :user_has_no_stock => "보유 stock이 없습니다.",
     :user_stock_lack => "보유 stock이 부족합니다.",
     :no_user_found => "사용자가 없습니다.",
-    :user_image_upload_fail => "이미지 업로드에 실패했습니다."
+    :user_image_upload_fail => "이미지 업로드에 실패했습니다.",
+    :not_bankruptcy => "파산조건이 안됩니다.",
+    :transaction_fail => "일시적 오류입니다.",
+    :not_work => "오늘은 더 일할 수 없습니다."
   }
   COMMISION = 0.2
   BUY = 1
   SELL = 2
+  SEED_MONEY = 1000
+  BANKRUPTCY_STD_MONEY = 5000
 end

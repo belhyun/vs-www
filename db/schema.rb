@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140520163023) do
+ActiveRecord::Schema.define(version: 20140527044205) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -53,21 +53,41 @@ ActiveRecord::Schema.define(version: 20140520163023) do
     t.integer "stocks_count", default: 0
   end
 
+  create_table "log_stocks", force: true do |t|
+    t.integer  "stock_id"
+    t.integer  "stock_buying"
+    t.integer  "stock_selling"
+    t.integer  "stock_money"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "log_stocks", ["stock_id"], name: "index_log_stocks_on_stock_id", using: :btree
+
   create_table "log_user_stocks", force: true do |t|
-    t.integer  "type"
+    t.integer  "stock_type"
     t.integer  "stock_amounts"
     t.integer  "user_id"
     t.integer  "stock_id"
     t.integer  "issue_id"
     t.integer  "user_money"
-    t.integer  "day"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "stock_money"
   end
 
   add_index "log_user_stocks", ["issue_id"], name: "index_log_user_stocks_on_issue_id", using: :btree
   add_index "log_user_stocks", ["stock_id"], name: "index_log_user_stocks_on_stock_id", using: :btree
   add_index "log_user_stocks", ["user_id"], name: "index_log_user_stocks_on_user_id", using: :btree
+
+  create_table "log_users", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "user_money"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "log_users", ["user_id"], name: "index_log_users_on_user_id", using: :btree
 
   create_table "photos", force: true do |t|
     t.integer  "issue_id"
@@ -119,6 +139,18 @@ ActiveRecord::Schema.define(version: 20140520163023) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+    t.string   "password"
+    t.datetime "last_bankruptcy"
+    t.date     "last_work_date"
+  end
+
+  create_table "works", force: true do |t|
+    t.string   "title"
+    t.string   "description"
+    t.integer  "give_money"
+    t.date     "end_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

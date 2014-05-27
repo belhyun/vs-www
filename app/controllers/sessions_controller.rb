@@ -11,34 +11,46 @@ class SessionsController < ApplicationController
         if !user_exist?
           gon.user = User.create_with(:name => info[:info][:name], :image => info[:info][:image], :sns_id => info[:uid],
                            :email => "#{info[:info][:name]}@twitter.com", :mem_type => TWITTER,
-                           :money => APP_CONFIG['seed_money'], :nickname => info[:info][:nickname])
+                           :money => Code::SEED_MONEY, :nickname => info[:info][:nickname])
                   .find_or_create_by(:email => "#{info[:info][:name]}@twitter.com")
         else
           gon.user = User.update(@user_id,:acc_token => User.new.gen_token, :expires => User.new.gen_expires) 
         end
       when 'facebook'
         if !user_exist?
-          gon.user = User.create_with(:name => info[:info][:name], :image => info[:info][:image], :sns_id => info[:uid],
+          gon.user = User.create_with(:name => info[:info][:name], :image => process_uri(info[:info][:image]), :sns_id => info[:uid],
                            :email => info[:info][:email], :mem_type => FACEBOOK,
-                           :money => APP_CONFIG['seed_money'], :nickname => info[:info][:name])
+                           :money => Code::SEED_MONEY, :nickname => info[:info][:name])
                   .find_or_create_by(:email => info[:info][:email])
         else
           gon.user = User.update(@user_id,:acc_token => User.new.gen_token, :expires => User.new.gen_expires) 
         end
       end
     end
-    render :guest, :layout => false
+    render :vs, :layout => false
   end
 
-  def guest
+  def vs
     if !user_exist?
-      gon.user = User.create(:mem_type => GUEST, :money => APP_CONFIG['seed_money'],:nickname => params.permit(:nick)[:nick])
+      gon.user = User.create(:mem_type => GUEST, :money => Code::SEED_MONEY,
+                             :nickname => params.permit(:nick)[:nick],
+                             :email => params.permit(:email)[:email],
+                             :password => params.permit(:password)[:password])
     else
       gon.user = User.update(@user_id,:acc_token => User.new.gen_token, :expires => User.new.gen_expires) 
     end
     respond_to do |format|
       format.html {render layout: false}
       format.js {render layout: false}
+    end
+  end
+
+  private
+  def process_uri(uri)
+    require 'open-uri'
+    require 'open_uri_redirections'
+    open(uri, :allow_redirections => :safe) do |r|
+      r.base_uri.to_s
     end
   end
 end

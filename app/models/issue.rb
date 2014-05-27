@@ -6,6 +6,7 @@ class Issue < ActiveRecord::Base
   has_many :userStocks
   has_many :logUserStocks
   accepts_nested_attributes_for :photos, :allow_destroy => true
+  accepts_nested_attributes_for :stocks, :allow_destroy => true
   scope :open , lambda {where("end_date >= CURDATE()")} 
   scope :closed , lambda {where("end_date < CURDATE()")}
   
@@ -20,7 +21,7 @@ class Issue < ActiveRecord::Base
   def as_json(options = {})
     h = super(options)
   end
-
+=begin
   def last_week_stock_amounts
     LogUserStock.where("created_at BETWEEN (CURDATE()-INTERVAL 1 WEEK - DAYOFWEEK(CURDATE())) AND (CURDATE() - DAYOFWEEK(CURDATE())) AND issue_id=#{id}").sum(:stock_amounts)
   end
@@ -41,4 +42,5 @@ class Issue < ActiveRecord::Base
   def total_stock_amounts
     LogUserStock.where("issue_id = #{id}").count
   end
+=end
 end

@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  stock_id: 1
+  stock_buying: 1
+  stock_selling_integer: MyString
+  stock_money: 1
+  references: 
+
+two:
+  stock_id: 1
+  stock_buying: 1
+  stock_selling_integer: MyString
+  stock_money: 1
+  references: 

@@ -15,4 +15,9 @@ class Photo < ActiveRecord::Base
   def xlarge
     sprintf("%s",image.url(:xlarge))
   end
+
+  def original 
+    sprintf("%s",image.url(:original))
+  end
+
 end

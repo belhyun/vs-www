@@ -1,4 +1,6 @@
 VsWww::Application.routes.draw do
+  resources :works
+
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   # The priority is based upon order of creation: first created -> highest priority.
@@ -9,11 +11,13 @@ VsWww::Application.routes.draw do
   get 'auth/:provider/callback', to: 'sessions#create'
   get 'auth/failure', to: redirect('/')
   get 'signout', to: 'sessions#destroy', as: 'signout'
-  get 'auth/guest', to: 'sessions#guest'
+  get 'auth/vs', to: 'sessions#vs'
   resources :users do
     collection do
-      post 'nick'
+      post 'is_dup'
       post 'image'
+      post 'bankruptcy'
+      get 'work'
     end
   end
 

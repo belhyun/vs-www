@@ -8,6 +8,11 @@ ActiveAdmin.register Issue do
         ff.input :image, :as => :file
         ff.input :is_list_image, :as=> :boolean
       end
+      f.has_many :stocks, :allow_destroy => true do |cf|
+        cf.input :name
+        cf.input :description
+        cf.input :money
+      end
     end
     f.buttons
   end
