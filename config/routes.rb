@@ -25,6 +25,7 @@ VsWww::Application.routes.draw do
     collection do
       get 'open'
       get 'closed'
+      get 'settle'
     end
   end
 

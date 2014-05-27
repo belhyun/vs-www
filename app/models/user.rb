@@ -75,12 +75,16 @@ class User < ActiveRecord::Base
     result
   end
 
+  def self.update_money(user_id, money)
+    User.find_by_id(user_id).increment!(:money, money)
+  end
+
   def self.buy_stocks(user_id, stock_money, stock_amounts)
-    User.find_by_id(user_id).increment!(:money, -stock_money * stock_amounts)
+    User.update_money(user_id, -stock_money * stock_amounts)
   end
 
   def self.sell_stocks(user_id, stock_money, stock_amounts)
-    User.find_by_id(user_id).increment!(:money, stock_money*stock_amounts*(1-Code::COMMISION))
+    User.update_money(user_id, stock_money*stock_amounts*(1-Code::COMMISION))
   end
 
   def weekly_change

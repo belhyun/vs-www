@@ -12,6 +12,7 @@ ActiveAdmin.register Issue do
         cf.input :name
         cf.input :description
         cf.input :money
+        cf.input :is_win, :as=> :boolean
       end
     end
     f.buttons

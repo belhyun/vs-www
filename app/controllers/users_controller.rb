@@ -39,7 +39,7 @@ class UsersController < ApplicationController
   end
 
   def bankruptcy
-    if @user.money > Code::BANKRUPTCY_STD_MONEY &&  UserStock.count(:conditions => ["user_id = ?", @user_id]) == 0 && Time.diff(DateTime.now,@user.last_bankruptcy)[:day]+1 < 7
+    if @user.money < Code::BANKRUPTCY_STD_MONEY &&  UserStock.count(:conditions => ["user_id = ?", @user_id]) == 0 && (Time.now - @user.last_bankruptcy)/86400.to_f > 7.0
       if @user.update_attributes(:last_bankruptcy => Time.now) && @user.increment!(:money, Code::BANKRUPTCY_STD_MONEY)
         redirect_to user_url(@user, :acc_token => params[:acc_token]) 
       else
@@ -52,7 +52,7 @@ class UsersController < ApplicationController
 
   def work
     work = Work.find_by_id(work_params[:work_id])
-    if @user.last_work.nil? || Time.diff(DateTime.now,@user.last_work)[:day] < 0
+    if @user.last_work.nil? || (Time.now - @user.last_work)/86400.to_f > 1.0
       if @user.update_attributes(:last_work => Time.now) && @user.increment!(:money, work.give_money)
         redirect_to user_url(@user, :acc_token => params[:acc_token]) 
       else

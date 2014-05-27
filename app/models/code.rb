@@ -11,7 +11,9 @@ class Code
     :user_image_upload_fail => "이미지 업로드에 실패했습니다.",
     :not_bankruptcy => "파산조건이 안됩니다.",
     :transaction_fail => "일시적 오류입니다.",
-    :not_work => "오늘은 더 일할 수 없습니다."
+    :not_work => "오늘은 더 일할 수 없습니다.",
+    :settle_fail => "정산대상이 아닙니다.",
+    :settle_done => "정산이 이미 완료되었습니다."
   }
   COMMISION = 0.2
   BUY = 1

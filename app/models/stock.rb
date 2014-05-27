@@ -7,6 +7,7 @@ class Stock < ActiveRecord::Base
   cattr_accessor :user_id
   scope :today, lambda{ where(["created_at = ?", Date.today])}
 
+
   def self.update_money(id)
     stock = Stock.find_by_id(id)
     stock.update_attribute(:money, (stock.money * UserStock.count_by_stock(id) / UserStock.count_by_issue(stock.issue.id)).ceil.to_i)
