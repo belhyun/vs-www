@@ -5,10 +5,27 @@ class User < ActiveRecord::Base
   has_many :stocks, :through => :userStocks
   has_many :userStocks
   has_many :logUserStocks
-  attr_accessor :image
+  attr_accessor :image, :image_url
   has_attached_file :image, :styles => { :xlarge => "180x180#", :large => "130x130#", :medium => "768x200#", :small => "45x45#" },
     :url => "/images/photos/:id/:id_:style.:extension"
+  before_validation :download_remote_image, :if => :image_url_provided?
   scope :user_money , lambda {|user_id| find_by_id(user_id).money}
+
+  def image_url_provided?
+    !self.image_url.blank? 
+  end
+
+  def download_remote_image
+    self.image = do_download_remote_image
+    #self.image_remote_url = image_url
+  end
+
+  def do_download_remote_image
+    io = open(URI.parse(image_url))
+    def io.original_filename; base_uri.path.split('/').last; end
+    io.original_filename.blank? ? nil : io
+  rescue # catch url errors with validations instead of exceptions (Errno::ENOENT, OpenURI::HTTPError, etc...)
+  end
 
   def gen_token
     self.acc_token = loop do
@@ -22,15 +39,15 @@ class User < ActiveRecord::Base
   def gen_identity
     case mem_type
     when 'G'
-      self.name = "GUEST_#{User.maximum('id').to_i + 1}"
-      self.email = "GUEST_#{User.maximum('id').to_i + 1}@versus.com"
+      self.name = "VS_#{User.maximum('id').to_i + 1}"
+      #self.email = "GUEST_#{User.maximum('id').to_i + 1}@versus.com"
     end
   end
   def expires=(expires)
     write_attribute(:expires, expires)
   end
   def expires
-    read_attribute(:expires).strftime("%Y%m%d%H%M%S")
+    read_attribute(:expires)
   end
 
   def self.buy_status(user_id, stock_id, stock_amounts)
@@ -64,5 +81,22 @@ class User < ActiveRecord::Base
 
   def self.sell_stocks(user_id, stock_money, stock_amounts)
     User.find_by_id(user_id).increment!(:money, stock_money*stock_amounts*(1-Code::COMMISION))
+  end
+
+  def weekly_change
+    user = User.find_by_id(id)
+    last_week_money = LogUser.select("user_money").where("created_at BETWEEN CURDATE() - INTERVAL 1 WEEK - (DATE_FORMAT(CURDATE(), '%w')+1) AND CURDATE() - (DATE_FORMAT(CURDATE(), '%w') -1) AND user_id =#{id}")
+    {
+      :weekly_money => 0,
+      :weekly_change => 0
+    }
+  end
+
+  def total_change
+    user_money = User.find_by_id(id).money
+    {
+      :amounts => user_money - Code::SEED_MONEY,
+      :rate => sprintf("%.2f\%",((user_money.to_f/Code::SEED_MONEY) -1) *100)
+    }
   end
 end
