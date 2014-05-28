@@ -22,7 +22,24 @@ class UsersController < ApplicationController
   def show
     user = User.find_by_id(@user_id)
     unless user.nil?
-      render :json => success(user.as_json(:methods => [:weekly_change, :total_change], :include => [:userStocks, :logUserStocks]))
+      result = user.as_json(:methods => 
+                                           [:weekly_change, :total_change], 
+                                             :include =>
+                                           [{:photo => 
+                                             {:methods => [:medium,:large,:xlarge,:original]}},
+                                           :userStocks
+                                           ])
+
+      result[:logUserStocks] = user.logUserStocks.limit(10).as_json(:include => [
+                                               {:stock => {:include => [:photo => {:methods => [:medium, :original]}], 
+                                                           :methods => [:user_stock_cnt, :last_week, :this_week, :total]}},
+                                               :issue => {:include => 
+                                                          [{:photo => {:methods => [:medium,:original]}}, 
+                                                           :stocks => {
+                                                            :include => [:photo => {:methods => [:medium, :original]}],
+                                                            :methods => [:user_stock_cnt, :last_week, :this_week, :total]}, 
+                                                           :photo => {:methods => [:medium,:large,:xlarge,:original]}]}])
+      render :json => success(result)
     else
       render :json => fail(Code::MSG[:no_user_found])
     end
@@ -30,7 +47,12 @@ class UsersController < ApplicationController
 
   def image
     @user = User.find(:first, :conditions => ["id =?", @user_id])
-    @user.update_attributes(profile_params.slice(:image))
+    unless @user.photo.nil?
+      @user.photo.update_attributes(:image => profile_params[:photo])
+    else
+      @user.photo = Photo.create!(:image => profile_params[:photo])
+    end
+
     if @user.save!
       render :json => success(@user)
     else
@@ -64,7 +86,7 @@ class UsersController < ApplicationController
   end
 
   def profile_params
-    params.permit(:image)
+    params.permit(:photo)
   end
 
   def work_params

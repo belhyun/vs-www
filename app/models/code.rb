@@ -1,5 +1,6 @@
 class Code 
   MSG = {
+    :user_not_found => "해당 사용자가 없습니다.",
     :not_enough_money => "보유 금액이 부족합니다.",
     :success => "success",
     :buy_transaction_fail => "buy transaction fail",

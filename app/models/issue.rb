@@ -1,15 +1,16 @@
 class Issue < ActiveRecord::Base
   PER_PAGE = 10
   attr_protected
-  has_many :photos
+  belongs_to :photo
   has_many :stocks, :dependent => :destroy
   has_many :userStocks
   has_many :logUserStocks
-  accepts_nested_attributes_for :photos, :allow_destroy => true
+  accepts_nested_attributes_for :photo, :allow_destroy => true
   accepts_nested_attributes_for :stocks, :allow_destroy => true
   scope :open , lambda {where("end_date >= CURDATE()")} 
   scope :closed , lambda {where("end_date < CURDATE()")}
   after_create :set_start_money
+  cattr_accessor :user_id
 
   def set_start_money
     issue = Issue.find_by_id(id)
@@ -26,6 +27,11 @@ class Issue < ActiveRecord::Base
 
   def as_json(options = {})
     h = super(options)
+  end
+
+  def is_joining
+    user_stock = UserStock.find(:first, :conditions => ["issue_id = ? AND user_id = ?", id, Issue.user_id])
+    if user_stock.nil? || user_stock.stock_amounts == 0 then false else true end
   end
 =begin
   def last_week_stock_amounts
