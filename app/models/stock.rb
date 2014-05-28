@@ -4,7 +4,9 @@ class Stock < ActiveRecord::Base
   has_many :users, :through => :userStocks
   has_many :userStocks
   has_many :logStocks
+  belongs_to :photo
   cattr_accessor :user_id
+  accepts_nested_attributes_for :photo, :allow_destroy => true
   scope :today, lambda{ where(["created_at = ?", Date.today])}
 
 
@@ -20,12 +22,11 @@ class Stock < ActiveRecord::Base
   end
 
   def last_week
-    
   end
 
   def this_week
-    this_week = LogStock.where("created_at BETWEEN CURDATE()-INTERVAL 1 WEEK AND CURDATE() + INTERVAL 1 DAY AND stock_id=#{id}")
-      .select("stock_money, DATE_FORMAT(created_at, '%w') as day_of_week")
+    this_week = LogStock.where("created_at BETWEEN CURDATE()-INTERVAL 1 WEEK AND CURDATE() AND stock_id=#{id}")
+      .select("stock_money, DATE_FORMAT(created_at, '%w')-1 as day_of_week")
     day_of_week = ["0","1","2","3","4","5","6"].reject{|day| this_week.collect{|stock| stock.day_of_week}.include?(day)}
     day_of_week.each{|day|
       stock = Hash.new

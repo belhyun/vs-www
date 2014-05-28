@@ -12,6 +12,8 @@ VsWww::Application.routes.draw do
   get 'auth/failure', to: redirect('/')
   get 'signout', to: 'sessions#destroy', as: 'signout'
   get 'auth/vs', to: 'sessions#vs'
+  get 'auth/logout', to: 'sessions#logout'
+
   resources :users do
     collection do
       post 'is_dup'

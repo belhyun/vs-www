@@ -45,6 +45,19 @@ class SessionsController < ApplicationController
     end
   end
 
+  def logout
+    user = User.find_by_id(@user_id)
+    unless user.nil?
+      if user.update_attributes(:expires => DateTime::now - 999.days)
+        render :json => success(nil)
+      else
+        render :json => fail(Code::MSG[:transaction_fail])
+      end
+    else
+      render :json => fail(Code::MSG[:user_not_found])
+    end
+  end
+
   private
   def process_uri(uri)
     require 'open-uri'

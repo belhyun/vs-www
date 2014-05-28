@@ -5,27 +5,9 @@ class User < ActiveRecord::Base
   has_many :stocks, :through => :userStocks
   has_many :userStocks
   has_many :logUserStocks
-  attr_accessor :image, :image_url
-  has_attached_file :image, :styles => { :xlarge => "180x180#", :large => "130x130#", :medium => "768x200#", :small => "45x45#" },
-    :url => "/images/photos/:id/:id_:style.:extension"
-  before_validation :download_remote_image, :if => :image_url_provided?
   scope :user_money , lambda {|user_id| find_by_id(user_id).money}
-
-  def image_url_provided?
-    !self.image_url.blank? 
-  end
-
-  def download_remote_image
-    self.image = do_download_remote_image
-    #self.image_remote_url = image_url
-  end
-
-  def do_download_remote_image
-    io = open(URI.parse(image_url))
-    def io.original_filename; base_uri.path.split('/').last; end
-    io.original_filename.blank? ? nil : io
-  rescue # catch url errors with validations instead of exceptions (Errno::ENOENT, OpenURI::HTTPError, etc...)
-  end
+  belongs_to :photo
+  accepts_nested_attributes_for :photo, :allow_destroy => true
 
   def gen_token
     self.acc_token = loop do
@@ -89,11 +71,22 @@ class User < ActiveRecord::Base
 
   def weekly_change
     user = User.find_by_id(id)
-    last_week_money = LogUser.select("user_money").where("created_at BETWEEN CURDATE() - INTERVAL 1 WEEK - (DATE_FORMAT(CURDATE(), '%w')+1) AND CURDATE() - (DATE_FORMAT(CURDATE(), '%w') -1) AND user_id =#{id}")
-    {
-      :weekly_money => 0,
-      :weekly_change => 0
-    }
+    week_start_money = LogUser.select('user_money')
+      .where("created_at >= (SELECT SUBDATE(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)) AND created_at <(SELECT SUBDATE(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY))+1 AND user_id = #{id}")
+    week_avg_money = LogUser.select('AVG(user_money) as user_money')
+      .where("created_at >= (SELECT SUBDATE(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)) AND user_id = #{id}")
+    if !week_start_money.blank? && !week_avg_money.blank?
+      result = {
+        :amounts => week_avg_money.first.user_money - week_start_money.first.user_money,
+        :rate => sprintf("%.2f\%",((week_avg_money.first.user_money.to_f/week_start_money.first.user_money) -1) *100)
+      }
+    else
+      result = {
+        :amounts => 0,
+        :rate =>  '0.00%'
+      }
+    end
+    result
   end
 
   def total_change
