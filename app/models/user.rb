@@ -72,13 +72,15 @@ class User < ActiveRecord::Base
   def weekly_change
     user = User.find_by_id(id)
     week_start_money = LogUser.select('user_money')
-      .where("created_at >= (SELECT SUBDATE(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)) AND created_at <(SELECT SUBDATE(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY))+1 AND user_id = #{id}")
-    week_avg_money = LogUser.select('AVG(user_money) as user_money')
-      .where("created_at >= (SELECT SUBDATE(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)) AND user_id = #{id}")
-    if !week_start_money.blank? && !week_avg_money.blank?
+      .where("DATE(created_at) = (SELECT SUBDATE(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)) AND user_id = #{id}")
+    last_day_money = LogUser.select('user_money')
+      .where("user_id = #{id}").order("created_at desc").limit(1)
+    if !week_start_money.blank? && !last_day_money.blank?
+      week_start_money = week_start_money.first.user_money
+      last_day_money  = last_day_money.first.user_money
       result = {
-        :amounts => week_avg_money.first.user_money - week_start_money.first.user_money,
-        :rate => sprintf("%.2f\%",((week_avg_money.first.user_money.to_f/week_start_money.first.user_money) -1) *100)
+        :amounts => last_day_money - week_start_money,
+        :rate => sprintf("%.2f\%",((last_day_money.to_f/week_start_money) -1) *100)
       }
     else
       result = {
@@ -90,10 +92,16 @@ class User < ActiveRecord::Base
   end
 
   def total_change
-    user_money = User.find_by_id(id).money
+    last_day_money = LogUser.select('user_money')
+      .where("user_id = #{id}").order("created_at desc").limit(1)
+    if !last_day_money.blank?
+      last_day_money = last_day_money.first.user_money
+    else
+      last_day_money = 0
+    end
     {
-      :amounts => user_money - Code::SEED_MONEY,
-      :rate => sprintf("%.2f\%",((user_money.to_f/Code::SEED_MONEY) -1) *100)
+      :amounts => last_day_money - Code::SEED_MONEY,
+      :rate => sprintf("%.2f\%",((last_day_money.to_f/Code::SEED_MONEY) -1) *100)
     }
   end
 end
