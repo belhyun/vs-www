@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  skip_before_filter :verify_authenticity_token, :only => [:is_dup, :image, :bankruptcy, :work]
+  skip_before_filter :verify_authenticity_token, :only => [:is_dup, :image, :bankruptcy, :work, :gcm]
   before_action :set_user, :only => [:bankruptcy, :work]
 
   def index
@@ -75,7 +75,7 @@ class UsersController < ApplicationController
   def work
     work = Work.find_by_id(work_params[:work_id])
     if @user.last_work.nil? || (Time.now - @user.last_work)/86400.to_f > 1.0
-      if @user.update_attributes(:last_work => Time.now) && @user.increment!(:money, work.give_money)
+      if @user.update_attributes(:last_work => Time.now) && User.update_money(@user_id, work.give_money)
         redirect_to user_url(@user, :acc_token => params[:acc_token]) 
       else
         render :json =>fail(Code::MSG[:transaction_fail])

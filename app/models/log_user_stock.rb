@@ -3,7 +3,7 @@ class LogUserStock < ActiveRecord::Base
   belongs_to :user
   belongs_to :stock
   belongs_to :issue
-  scope :today, lambda{|stock_id| where(["created_at = ? AND stock_id = ?", Date.today, stock_id])}
+  scope :today, lambda{|stock_id| where(["DATE_FORMAT(created_at, '%Y-%m-%d') = ? AND stock_id = ?", Date.today, stock_id])}
   scope :buying, lambda{where(["stock_type = ?", Code::BUY])}
   scope :selling, lambda{where(["stock_type = ?", Code::SELL])}
 

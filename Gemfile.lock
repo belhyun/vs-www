@@ -79,6 +79,9 @@ GEM
       multipart-post (>= 1.2, < 3)
     formtastic (2.3.0.rc3)
       actionpack (>= 3.0)
+    gcm (0.0.7)
+      httparty
+      json
     gon (5.0.4)
       actionpack (>= 2.3.0)
       json
@@ -87,6 +90,9 @@ GEM
       activesupport (>= 3.2, < 5)
     hashie (2.0.5)
     hike (1.2.3)
+    httparty (0.13.1)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     i18n (0.6.9)
     inherited_resources (1.4.1)
       has_scope (~> 0.6.0.rc)
@@ -227,6 +233,7 @@ DEPENDENCIES
   activeadmin!
   bootstrap-glyphicons
   coffee-rails (~> 4.0.0)
+  gcm
   gon
   jbuilder (~> 1.2)
   jquery-rails
