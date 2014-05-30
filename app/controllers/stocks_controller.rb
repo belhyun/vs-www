@@ -25,7 +25,7 @@ class StocksController < ApplicationController
           stock_id, 
           issue_id, 
           User.user_money(@user_id),
-          stock_money,
+          @stock.money,
         )
         result = success(UserStock.find_by_id(user_stock.id).as_json(:include => [:user, :stock, :issue]))
         result[:body][:buy_stock_amounts] = stock_amounts

@@ -22,6 +22,13 @@ VsWww::Application.routes.draw do
       get 'work'
     end
   end
+  
+  resources :gcms do
+    collection do 
+      post 'reg'
+      get 'send_msg'
+    end
+  end
 
   resources :issues do
     collection do

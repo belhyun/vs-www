@@ -8,11 +8,16 @@ class Stock < ActiveRecord::Base
   cattr_accessor :user_id
   accepts_nested_attributes_for :photo, :allow_destroy => true
   scope :today, lambda{ where(["created_at = ?", Date.today])}
+  after_create :set_start_money
 
+  def set_start_money
+    stock = Stock.find_by_id(id)
+    stock.update_attribute(:start_money, stock.money)
+  end
 
   def self.update_money(id)
     stock = Stock.find_by_id(id)
-    stock.update_attribute(:money, (stock.money * UserStock.count_by_stock(id) / UserStock.count_by_issue(stock.issue.id)).ceil.to_i)
+    stock.update_attribute(:money, stock.start_money * UserStock.count_by_stock(id) / UserStock.count_by_issue(stock.issue.id).ceil.to_i)
     stock.money
   end
 
