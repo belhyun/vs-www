@@ -34,4 +34,12 @@ class UserStock < ActiveRecord::Base
       :plus_money => plus_money
     }
   end
+
+  def self.get_stock_total_money(user_id)
+    unless user_id.nil?
+      UserStock.joins(:stock).select("user_stocks.*, stocks.money").where(:user_id => 156, :is_settled => 0).sum("stocks.money*stock_amounts")
+    else 
+      0
+    end
+  end
 end
