@@ -3,6 +3,11 @@ class UsersController < ApplicationController
   before_action :set_user, :only => [:bankruptcy, :work]
 
   def index
+   if !user_exist?
+     render :template => 'users/signup'
+   else
+     render :template => 'users/signin'
+   end
   end
   
   def is_dup

@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   has_many :userStocks
   has_many :logUserStocks
   scope :user_money , lambda {|user_id| find_by_id(user_id).money}
+  scope :find_by_acc_token, lambda{|acc_token| find(:first, :conditions => ["acc_token = ?", acc_token])}
   belongs_to :photo
   accepts_nested_attributes_for :photo, :allow_destroy => true
 
