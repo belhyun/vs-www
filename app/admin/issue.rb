@@ -4,6 +4,7 @@ ActiveAdmin.register Issue do
       f.input :title
       f.input :description
       f.input :end_date
+      f.input :is_closed, :as => :boolean, :label => "정산시작여부"
       f.has_many :photo do |cf|
         cf.input :image
       end

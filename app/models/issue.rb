@@ -8,7 +8,7 @@ class Issue < ActiveRecord::Base
   accepts_nested_attributes_for :photo, :allow_destroy => true
   accepts_nested_attributes_for :stocks, :allow_destroy => true
   scope :open , lambda {where("end_date >= CURDATE()")} 
-  scope :closed , lambda {where("end_date < CURDATE()")}
+  scope :closed , lambda {where("end_date < CURDATE() AND is_closed = 1")}
   after_create :set_start_money
   cattr_accessor :user_id
 
