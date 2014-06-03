@@ -12,11 +12,13 @@ VsWww::Application.routes.draw do
   get 'auth/failure', to: redirect('/')
   get 'signout', to: 'sessions#destroy', as: 'signout'
   get 'auth/vs', to: 'sessions#vs'
+  get 'auth/signin', to: 'sessions#signin'
   get 'auth/logout', to: 'sessions#logout'
 
   resources :users do
     collection do
       post 'is_dup'
+      post 'is_valid_user'
       post 'image'
       post 'bankruptcy'
       get 'work'

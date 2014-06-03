@@ -3,11 +3,6 @@ class UsersController < ApplicationController
   before_action :set_user, :only => [:bankruptcy, :work]
 
   def index
-   if !user_exist?
-     render :template => 'users/signup'
-   else
-     render :template => 'users/signin'
-   end
   end
   
   def is_dup
@@ -22,6 +17,16 @@ class UsersController < ApplicationController
         render :json => fail('not exists')
       end
     end
+  end
+
+  def is_valid_user
+    @user = User.find(:first, :conditions => ["email = ? AND password =  ?",params[:email], params[:password]])
+    if !@user.nil?
+      render :json => success({code:1, msg:'valid user'})
+    else
+      render :json => fail('not valid')
+    end
+
   end
 
   def show

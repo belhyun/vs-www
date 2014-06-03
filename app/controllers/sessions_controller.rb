@@ -45,6 +45,12 @@ class SessionsController < ApplicationController
     end
   end
 
+  def signin
+    user = User.find(:first, :conditions => ["email = ? AND password =  ?",params[:email], params[:password]])
+    gon.user = User.update(user.id,:acc_token => User.new.gen_token, :expires => User.new.gen_expires) 
+    render :vs, :layout => false
+  end
+
   def logout
     user = User.find_by_id(@user_id)
     unless user.nil?
