@@ -3,7 +3,7 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 #auth-group{
   position:relative;
-  top:25em;
+  top:20em;
   .fb-login{
     text-align:center;
     padding-top:1.563em;
@@ -16,12 +16,19 @@
     width:50%;
     background-color:red;
   }
-  .guest-login{
+  .center{
     text-align:center;
     margin-bottom:1.563em;
+    padding:0.938em;
+    background-color:gray;
   }
 
   td{
     border: 1px solid;
+  }
+
+  #if-signup{
+  }
+  #if-signin{
   }
 }

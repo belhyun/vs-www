@@ -40,15 +40,15 @@ class UsersController < ApplicationController
                                            :userStocks
                                            ])
 
-      result[:logUserStocks] = user.logUserStocks.limit(10).as_json(:include => [
+      result[:logUserStocks] = user.logUserStocks.limit(10).order("created_at desc").as_json(:include => [
                                                {:stock => {:include => [:photo => {:methods => [:medium, :original]}], 
                                                            :methods => [:user_stock_cnt, :last_week, :this_week, :total]}},
-                                               :issue => {:include => 
+                                                :issue => {:methods => [:is_joining], :include => 
                                                           [{:photo => {:methods => [:medium,:original]}}, 
-                                                           :stocks => {
+                                                :stocks => {
                                                             :include => [:photo => {:methods => [:medium, :original]}],
                                                             :methods => [:user_stock_cnt, :last_week, :this_week, :total]}, 
-                                                           :photo => {:methods => [:medium,:large,:xlarge,:original]}]}])
+                                                :photo => {:methods => [:medium,:large,:xlarge,:original]}]}])
       render :json => success(result)
     else
       render :json => fail(Code::MSG[:no_user_found])
