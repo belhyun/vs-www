@@ -20,7 +20,7 @@ class IssuesController < ApplicationController
     @issues = Issue.open.paginate(:page => params[:page], :per_page => Issue::PER_PAGE)
       .as_json(:methods => [:is_joining], 
     :include => [{:stocks => {:include => {:photo => {:methods => [:medium,:large,:xlarge,:original]}}, 
-    :methods => [:user_stock_cnt, :last_week, :this_week, :total]}}, 
+    :methods => [:user_stock_cnt, :last_week, :this_week, :total, :buy_avg_money]}}, 
     :photo => {:methods => [:medium,:large,:xlarge,:original]}])
     respond_to do |format|
       if is_auth?

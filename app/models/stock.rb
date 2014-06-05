@@ -31,7 +31,7 @@ class Stock < ActiveRecord::Base
 
   def this_week
     this_week = LogStock.where("created_at BETWEEN CURDATE()-INTERVAL 1 WEEK AND CURDATE() AND stock_id=#{id}")
-      .select("stock_money, DATE_FORMAT(created_at, '%w')-1 as day_of_week")
+      .select("stock_money, DATE_FORMAT(created_at, '%w')-2 as day_of_week")
     day_of_week = ["0","1","2","3","4","5","6"].reject{|day| this_week.collect{|stock| stock.day_of_week}.include?(day)}
     day_of_week.each{|day|
       stock = Hash.new
@@ -43,5 +43,10 @@ class Stock < ActiveRecord::Base
   end
 
   def total
+    LogUserStock.where(:stock_id => id).count
+  end
+
+  def buy_avg_money
+    LogUserStock.where(:stock_id => id, :user_id => Stock.user_id, :stock_type => 1).average(:stock_money).to_i
   end
 end
