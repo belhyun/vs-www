@@ -81,7 +81,7 @@ class User < ActiveRecord::Base
       last_day_money  = last_day_money.first.user_money
       result = {
         :amounts => last_day_money - week_start_money,
-        :rate => sprintf("%.2f\%",((last_day_money.to_f/week_start_money) -1) *100)
+        :rate => sprintf("%+.2f\%",((last_day_money.to_f/week_start_money) -1) *100)
       }
     else
       result = {
@@ -97,12 +97,15 @@ class User < ActiveRecord::Base
       .where("user_id = #{id}").order("created_at desc").limit(1)
     if !last_day_money.blank?
       last_day_money = last_day_money.first.user_money
+      {
+        :amounts => last_day_money - Code::SEED_MONEY,
+        :rate => sprintf("%+.2f\%",((last_day_money.to_f/Code::SEED_MONEY) -1) *100)
+      }
     else
-      last_day_money = 0
+      {
+        :amounts => 0,
+        :rate => "0.00%"
+      }
     end
-    {
-      :amounts => last_day_money - Code::SEED_MONEY,
-      :rate => sprintf("%.2f\%",((last_day_money.to_f/Code::SEED_MONEY) -1) *100)
-    }
   end
 end
