@@ -26,12 +26,9 @@ class Stock < ActiveRecord::Base
     if user_stock.nil? then 0 else user_stock.stock_amounts end
   end
 
-  def last_week
-  end
-
   def this_week
     this_week = LogStock.where("created_at BETWEEN CURDATE()-INTERVAL 1 WEEK AND CURDATE() AND stock_id=#{id}")
-      .select("stock_money, DATE_FORMAT(created_at, '%w')-2 as day_of_week")
+      .select("stock_money, DATE_FORMAT(created_at, '%w') as day_of_week")
     day_of_week = ["0","1","2","3","4","5","6"].reject{|day| this_week.collect{|stock| stock.day_of_week}.include?(day)}
     day_of_week.each{|day|
       stock = Hash.new

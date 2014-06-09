@@ -1,30 +1,44 @@
 // Place all the styles related to the users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-#auth-group{
+#main-logo{
+  text-align:center;
   position:relative;
-  top:20em;
-  .fb-login{
-    text-align:center;
-    padding-top:1.563em;
-    width:50%;
-    background-color:blue;
+  img{
+    width:110px;
+    height:110px;
   }
-  .tw-login{
-    text-align:center;
-    padding-top:1.563em;
-    width:50%;
-    background-color:red;
+}
+#inner-container{
+  position:relative;
+  top:5em;
+  #member-section{
+    margin-top:66px;
+  }
+  #input{
+    input{
+      display:inline-block;
+      width:212px;
+      height:32px;
+      border:none;
+    }
+  }
+  .align-right{
+    text-align:right;
+  }
+  .align-left{
+    text-align:left;
   }
   .center{
     text-align:center;
-    margin-bottom:1.563em;
-    padding:0.938em;
-    background-color:gray;
+    padding-top:1.563em;
+    width:50%;
   }
-
   td{
-    border: 1px solid;
+    //border: 1px solid;
+    img{
+      //width:150px;
+    }
   }
 
   #if-signup{

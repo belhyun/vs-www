@@ -1,19 +1,44 @@
-<div id="auth-group">
-  <div class="center" data-toggle="modal" data-target="#if-signin">IF 로그인</div>
-  <div class="center" data-toggle="modal" data-target="#if-signup">IF 가입</div>
-  <table>
-    <tr>
-      <td class="fb-login">
-        <%=link_to "/auth/facebook" do%>
-          <span>Login with facebook</span>
+<div id="inner-container">
+  <div id="main-logo">
+    <%= image_tag("logo.jpg", alt: "Fail") %> 
+  </div>
+  <div id="member-section">
+    <div id="input">
+      <div style="width:212px;margin:0 auto">
+        <%= image_tag("logo.jpg", :alt => "Fail", :width => "38px", :height => "32px", :style => "float:left")%> 
+        <input type="email" id="" placeholder="Email" style="width:174px;padding:4px 5px 4px 0">
+      </div>
+      <div style="width:212px;margin:7px auto">
+        <%= image_tag("logo.jpg", :alt => "Fail", :width => "38px", :height => "32px", :style => "float:left")%> 
+        <input type="password" id="" placeholder="Password" style="width:174px;padding:4px 5px 4px 0">
+      </div>
+    </div>
+    <table style="margin-top:15px">
+      <td class="align-right">
+        <!--<div class="" data-toggle="modal" data-target="#if-signin">Login</div>-->
+        <%= image_tag("signup.png", :alt => "Fail", :id => "signup") do%> 
         <%end%>
       </td>
-      <td class="tw-login">
-        <%=link_to "/auth/twitter" do%>
-          <span>Login with twitter</span>
+      <td class="align-left">
+        <%= image_tag("login.png", :alt => "Fail", :id => "signin") do%> 
         <%end%>
+        <!--<div class="" data-toggle="modal" data-target="#if-signup">Sign up</div>-->
       </td>
-    <tr/>
-  </table>
+    </table>
+    <table style="margin-top:11px;">
+      <tr>
+        <td class="align-right">
+          <%= link_to "/auth/facebook" do%>
+            <%= image_tag("login_facebook.png", :alt => "Fail")%> 
+          <%end%>
+        </td>
+        <td class="align-left">
+          <%= link_to "/auth/twitter" do%>
+            <%= image_tag("login_twitter.png", :alt => "Fail")%> 
+          <%end%>
+        </td>
+      <tr/>
+    </table>
+  </div>
 </div>
 <%= render :partial => 'users/modal' %>

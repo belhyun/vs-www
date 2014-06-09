@@ -6,6 +6,7 @@ class StocksController < ApplicationController
     stock_id = buy_params[:id]
     issue_id = @stock.issue.id
     stock_amounts = buy_params[:stock_amounts].to_i
+    Stock.user_id = @user_id
     case User.buy_status(@user_id, stock_id, stock_amounts)
     when Code::MSG[:not_enough_money]
       render :json => fail(Code::MSG[:not_enough_money]) and return
@@ -27,7 +28,8 @@ class StocksController < ApplicationController
           User.user_money(@user_id),
           @stock.money,
         )
-        result = success(UserStock.find_by_id(user_stock.id).as_json(:include => [:user, :stock, :issue]))
+        result = success(UserStock.find_by_id(user_stock.id).as_json(:include => [:user, {:stock => {:methods => 
+                                                                     [:user_stock_cnt, :this_week, :buy_avg_money, :total]}}, :issue]))
         result[:body][:buy_stock_amounts] = stock_amounts
         result[:body][:stock_money] = stock_money 
         render :json => result and return
@@ -65,7 +67,8 @@ class StocksController < ApplicationController
            User.user_money(@user_id),
            @stock.money
          )
-         result = success(UserStock.find_by_id(user_stock.id).as_json(:include => [:user, :stock, :issue]))
+         result = success(UserStock.find_by_id(user_stock.id).as_json(:include => [:user, {:stock => {:methods => 
+                                                                                                      [:user_stock_cnt, :this_week, :buy_avg_money, :total]}}, :issue]))
          result[:body][:sell_stock_amounts] = stock_amounts
          result[:body][:stock_money] = money
          render :json => result and return

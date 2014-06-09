@@ -12,6 +12,10 @@ class Issue < ActiveRecord::Base
   after_create :set_start_money
   cattr_accessor :user_id
 
+  def is_settled
+    !UserStock.where(["issue_id = ? AND user_id = ? AND is_settled = ?", id, Issue.user_id, true]).blank?
+  end
+
   def set_start_money
     issue = Issue.find_by_id(id)
     issue.update_attribute(:money, issue.stocks.sum(:money))
@@ -33,6 +37,12 @@ class Issue < ActiveRecord::Base
     user_stock = UserStock.find(:first, :conditions => ["issue_id = ? AND user_id = ?", id, Issue.user_id])
     if user_stock.nil? || user_stock.stock_amounts == 0 then false else true end
   end
+
+  def user_money
+    user = User.find_by_id(Issue.user_id)
+    if user.nil? then 0 else user.money end
+  end
+
 =begin
   def last_week_stock_amounts
     LogUserStock.where("created_at BETWEEN (CURDATE()-INTERVAL 1 WEEK - DAYOFWEEK(CURDATE())) AND (CURDATE() - DAYOFWEEK(CURDATE())) AND issue_id=#{id}").sum(:stock_amounts)
