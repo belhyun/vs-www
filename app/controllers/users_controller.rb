@@ -6,16 +6,11 @@ class UsersController < ApplicationController
   end
   
   def is_dup
-    @user = User.find(:first, :conditions => ["nickname = ?",params.permit(:nick)[:nick]])
+    @user = User.find(:first, :conditions => ["email = ?",params.permit(:email)[:email]])
     if !@user.nil?
-      render :json => success({code:1, msg:'exists nick'})
+      render :json => success({code:2, msg:'exists email'})
     else
-      @user = User.find(:first, :conditions => ["email = ?",params.permit(:email)[:email]])
-      if !@user.nil?
-        render :json => success({code:2, msg:'exists email'})
-      else
-        render :json => fail('not exists')
-      end
+      render :json => fail('not exists')
     end
   end
 

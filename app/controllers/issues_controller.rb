@@ -18,9 +18,9 @@ class IssuesController < ApplicationController
   def open
     Issue.user_id = Stock.user_id = @user_id
     @issues = Issue.open.paginate(:page => params[:page], :per_page => Issue::PER_PAGE)
-      .as_json(:methods => [:is_joining], 
+      .as_json(:methods => [:is_joining, :user_money], 
     :include => [{:stocks => {:include => {:photo => {:methods => [:medium,:large,:xlarge,:original]}}, 
-    :methods => [:user_stock_cnt, :last_week, :this_week, :total, :buy_avg_money]}}, 
+    :methods => [:user_stock_cnt, :this_week, :total, :buy_avg_money]}}, 
     :photo => {:methods => [:medium,:large,:xlarge,:original]}])
     respond_to do |format|
       if is_auth?
@@ -36,12 +36,13 @@ class IssuesController < ApplicationController
   end
 
   def closed
+    Issue.user_id = @user_id
     @issues = Issue.closed.paginate(:page => params[:page], :per_page => Issue::PER_PAGE)
-      .as_json(:methods => [:is_joining], 
+      .as_json(:methods => [:is_joining, :is_settled], 
     :include => [{:stocks => {:include => {:photo => {:methods => [:medium,:large,:xlarge,:original]}}, 
     :methods => [:user_stock_cnt, :last_week, :this_week, :total]}}, 
     :photo => {:methods => [:medium,:large,:xlarge,:original]}])
-
+    @issues = @issues.to_a.reject{|o| o["is_joining"] === false || o["is_settled"] === true}
     respond_to do |format|
       if is_auth?
         @success = success(@issues)
