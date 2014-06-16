@@ -59,7 +59,7 @@ class UsersController < ApplicationController
     end
 
     if @user.save!
-      render :json => success(@user)
+      render :json => success(@user.as_json(:include => [:photo => {:methods => [:medium,:large,:xlarge,:original]}]))
     else
       render :json => fail(Code::MSG[:user_image_upload_fail])
     end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140527044205) do
+ActiveRecord::Schema.define(version: 20140611012654) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -50,14 +50,17 @@ ActiveRecord::Schema.define(version: 20140527044205) do
     t.string  "title"
     t.text    "description"
     t.date    "end_date"
-    t.integer "stocks_count", default: 0
+    t.integer "stocks_count",           default: 0
+    t.integer "money"
+    t.integer "photo_id"
+    t.integer "is_closed",    limit: 1, default: 0
   end
 
   create_table "log_stocks", force: true do |t|
     t.integer  "stock_id"
-    t.integer  "stock_buying"
-    t.integer  "stock_selling"
-    t.integer  "stock_money"
+    t.integer  "stock_buying",  default: 0
+    t.integer  "stock_selling", default: 0
+    t.integer  "stock_money",   default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -90,17 +93,13 @@ ActiveRecord::Schema.define(version: 20140527044205) do
   add_index "log_users", ["user_id"], name: "index_log_users_on_user_id", using: :btree
 
   create_table "photos", force: true do |t|
-    t.integer  "issue_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "image_file_name"
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
-    t.boolean  "is_list_image"
   end
-
-  add_index "photos", ["issue_id"], name: "index_photos_on_issue_id", using: :btree
 
   create_table "stocks", force: true do |t|
     t.string   "name"
@@ -109,6 +108,9 @@ ActiveRecord::Schema.define(version: 20140527044205) do
     t.integer  "issue_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "is_win",      limit: 1
+    t.integer  "photo_id"
+    t.integer  "start_money"
   end
 
   add_index "stocks", ["issue_id"], name: "index_stocks_on_issue_id", using: :btree
@@ -120,13 +122,13 @@ ActiveRecord::Schema.define(version: 20140527044205) do
     t.datetime "updated_at"
     t.integer  "issue_id"
     t.integer  "stock_amounts"
+    t.integer  "is_settled",    limit: 1, default: 0
   end
 
   add_index "user_stocks", ["user_id"], name: "index_user_stocks_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "name"
-    t.string   "image"
     t.string   "sns_id"
     t.string   "email"
     t.string   "uniq"
@@ -134,21 +136,27 @@ ActiveRecord::Schema.define(version: 20140527044205) do
     t.datetime "expires"
     t.integer  "money"
     t.string   "nickname"
-    t.string   "mem_type",           limit: 10
-    t.string   "image_file_name"
-    t.string   "image_content_type"
-    t.integer  "image_file_size"
-    t.datetime "image_updated_at"
+    t.string   "mem_type",        limit: 10
     t.string   "password"
     t.datetime "last_bankruptcy"
-    t.date     "last_work_date"
+    t.datetime "last_work"
+    t.integer  "photo_id"
+    t.text     "gcm_id"
+    t.integer  "is_push",         limit: 1
+  end
+
+  create_table "versions", force: true do |t|
+    t.integer  "major"
+    t.integer  "minor"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "works", force: true do |t|
     t.string   "title"
     t.string   "description"
     t.integer  "give_money"
-    t.date     "end_date"
+    t.datetime "end_date"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

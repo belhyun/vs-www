@@ -106,6 +106,8 @@ class StocksController < ApplicationController
     @stock = Stock.find_by_id(params[:id])
     if @stock.nil?
       render :json => fail(Code::MSG[:buy_transaction_fail]) and return
+    elsif @stock.money == 0
+      render :json => fail(Code::MSG[:stock_money_zero]) and return
     end
   end
 
