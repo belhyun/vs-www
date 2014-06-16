@@ -14,6 +14,7 @@ VsWww::Application.routes.draw do
   get 'auth/vs', to: 'sessions#vs'
   get 'auth/signin', to: 'sessions#signin'
   get 'auth/logout', to: 'sessions#logout'
+  get 'versions', to: 'versions#index'
 
   resources :users do
     collection do

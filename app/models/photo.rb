@@ -4,7 +4,8 @@ class Photo < ActiveRecord::Base
   has_one :stock
   has_one :user
   attr_accessor :image, :image_url
-  has_attached_file :image, :styles => { :xlarge => "180x180#", :large => "130x130#", :medium => "768x200#", :small => "45x45#" },
+  has_attached_file :image, :styles => { 
+    :xlarge => "500x500>", :large => "192x192>", :medium => "128x96>", :small => "100x75>" },
     :url => "/images/photos/:id/:id_:style.:extension"
   before_validation :download_remote_image, :if => :image_url_provided?
   def medium 
