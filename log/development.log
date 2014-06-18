@@ -148,3 +148,64 @@
   [1m[36m (0.1ms)[0m  [1mBEGIN[0m
   [1m[35mSQL (1.5ms)[0m  INSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-18 09:00:31', '2014-06-18 09:00:31', 172, 1000)
   [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT `users`.* FROM `users`[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 156 LIMIT 1
+  [1m[36m (0.3ms)[0m  [1mSELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 156 AND `user_stocks`.`is_settled` = 0[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-18 15:56:41', '2014-06-18 15:56:41', 156, 37976350)[0m
+  [1m[35m (2.4ms)[0m  COMMIT
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 162 LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  SELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 162 AND `user_stocks`.`is_settled` = 0
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-18 15:56:41', '2014-06-18 15:56:41', 162, 1000)
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 163 LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mSELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 163 AND `user_stocks`.`is_settled` = 0[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (1.4ms)[0m  [1mINSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-18 15:56:41', '2014-06-18 15:56:41', 163, 1000)[0m
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 164 LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  SELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 164 AND `user_stocks`.`is_settled` = 0
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-18 15:56:41', '2014-06-18 15:56:41', 164, 988)
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 165 LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mSELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 165 AND `user_stocks`.`is_settled` = 0[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (1.2ms)[0m  [1mINSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-18 15:56:41', '2014-06-18 15:56:41', 165, 1000)[0m
+  [1m[35m (0.5ms)[0m  COMMIT
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 166 LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  SELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 166 AND `user_stocks`.`is_settled` = 0
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-18 15:56:41', '2014-06-18 15:56:41', 166, 1000)
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 167 LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mSELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 167 AND `user_stocks`.`is_settled` = 0[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (1.4ms)[0m  [1mINSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-18 15:56:41', '2014-06-18 15:56:41', 167, 1000)[0m
+  [1m[35m (0.5ms)[0m  COMMIT
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 168 LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  SELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 168 AND `user_stocks`.`is_settled` = 0
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-18 15:56:41', '2014-06-18 15:56:41', 168, 932)
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 169 LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mSELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 169 AND `user_stocks`.`is_settled` = 0[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-18 15:56:41', '2014-06-18 15:56:41', 169, 1000)[0m
+  [1m[35m (0.5ms)[0m  COMMIT
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 170 LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  SELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 170 AND `user_stocks`.`is_settled` = 0
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (9.5ms)[0m  INSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-18 15:56:41', '2014-06-18 15:56:41', 170, 0)
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 171 LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mSELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 171 AND `user_stocks`.`is_settled` = 0[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.9ms)[0m  [1mINSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-18 15:56:41', '2014-06-18 15:56:41', 171, 800)[0m
+  [1m[35m (0.5ms)[0m  COMMIT
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 172 LIMIT 1[0m
+  [1m[35m (0.3ms)[0m  SELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 172 AND `user_stocks`.`is_settled` = 0
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (10.6ms)[0m  INSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-18 15:56:41', '2014-06-18 15:56:41', 172, 1000)
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
