@@ -31,19 +31,19 @@ class UsersController < ApplicationController
                                            [:weekly_change, :total_change], 
                                              :include =>
                                            [{:photo => 
-                                             {:methods => [:medium,:large,:xlarge,:original]}},
+                                             {:methods => [:kinds]}},
                                            :userStocks
                                            ])
 
       result[:logUserStocks] = user.logUserStocks.limit(10).order("created_at desc").as_json(:include => [
-                                               {:stock => {:include => [:photo => {:methods => [:medium, :original]}], 
+                                               {:stock => {:include => [:photo => {:methods => [:kinds]}], 
                                                            :methods => [:user_stock_cnt, :last_week, :this_week, :total]}},
                                                 :issue => {:methods => [:is_joining], :include => 
-                                                          [{:photo => {:methods => [:medium,:original]}}, 
+                                                          [{:photo => {:methods => [:kinds]}}, 
                                                 :stocks => {
-                                                            :include => [:photo => {:methods => [:medium, :original]}],
+                                                            :include => [:photo => {:methods => [:kinds]}],
                                                             :methods => [:user_stock_cnt, :last_week, :this_week, :total]}, 
-                                                :photo => {:methods => [:medium,:large,:xlarge,:original]}]}])
+                                                :photo => {:methods => [:kinds]}]}])
       render :json => success(result)
     else
       render :json => fail(Code::MSG[:no_user_found])
@@ -59,7 +59,7 @@ class UsersController < ApplicationController
     end
 
     if @user.save!
-      render :json => success(@user.as_json(:include => [:photo => {:methods => [:medium,:large,:xlarge,:original]}]))
+      render :json => success(@user.as_json(:include => [:photo => {:methods => [:kinds]}]))
     else
       render :json => fail(Code::MSG[:user_image_upload_fail])
     end
