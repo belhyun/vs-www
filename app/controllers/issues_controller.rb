@@ -1,7 +1,7 @@
 class IssuesController < ApplicationController
   def index
     @issues = Issue.paginate(:page => params[:page], :per_page => Issue::PER_PAGE)
-    .as_json(:include => [:photos => {:methods => [:medium], :except => [:image_content_type, :image_file_name, :image_file_size, :image_updated_at]}])
+    .as_json(:include => [:photos => {:methods => [:kinds], :except => [:image_content_type, :image_file_name, :image_file_size, :image_updated_at]}])
     respond_to do |format|
       if is_auth?
         @success = success(@issues)
@@ -19,9 +19,9 @@ class IssuesController < ApplicationController
     Issue.user_id = Stock.user_id = @user_id
     @issues = Issue.open.paginate(:page => params[:page], :per_page => Issue::PER_PAGE)
       .as_json(:methods => [:is_joining, :user_money], 
-    :include => [{:stocks => {:include => {:photo => {:methods => [:medium,:large,:xlarge,:original]}}, 
+    :include => [{:stocks => {:include => {:photo => {:methods => [:kinds]}}, 
     :methods => [:user_stock_cnt, :this_week, :total, :buy_avg_money]}}, 
-    :photo => {:methods => [:medium,:large,:xlarge,:original]}])
+    :photo => {:methods => [:kinds]}])
     respond_to do |format|
       if is_auth?
         @success = success(@issues)
@@ -37,16 +37,17 @@ class IssuesController < ApplicationController
 
   def closed
     Issue.user_id = @user_id
-    @issues = Issue.closed.paginate(:page => params[:page], :per_page => Issue::PER_PAGE)
+    @closed_issues = Issue.closed
+    @issues = @closed_issues.paginate(:page => params[:page], :per_page => Issue::PER_PAGE)
       .as_json(:methods => [:is_joining, :is_settled], 
-    :include => [{:stocks => {:include => {:photo => {:methods => [:medium,:large,:xlarge,:original]}}, 
+    :include => [{:stocks => {:include => {:photo => {:methods => [:kinds]}}, 
     :methods => [:user_stock_cnt, :last_week, :this_week, :total]}}, 
-    :photo => {:methods => [:medium,:large,:xlarge,:original]}])
+    :photo => {:methods => [:kinds]}])
     @issues = @issues.to_a.reject{|o| o["is_joining"] === false || o["is_settled"] === true}
     respond_to do |format|
       if is_auth?
         @success = success(@issues)
-        @success[:total_cnt] = Issue.count
+        @success[:total_cnt] = @closed_issues.as_json(:methods => [:is_joining, :is_settled]).to_a.reject{|o| o["is_joining"] === false || o["is_settled"] === true}.count
         @success[:per_page] = Issue::PER_PAGE
         @success[:page] = params[:page].to_i
         format.json{render :json => @success}

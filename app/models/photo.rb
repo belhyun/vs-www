@@ -23,6 +23,20 @@ class Photo < ActiveRecord::Base
   def original 
     sprintf("%s",image.url(:original))
   end
+
+  def small
+    sprintf("%s",image.url(:small))
+  end
+
+  def kinds 
+    {
+      :small => small,
+      :large => large,
+      :xlarge => xlarge,
+      :original => original,
+      :medium => medium
+    }
+  end
   
   def image_url_provided?
     !self.image_url.blank? 
