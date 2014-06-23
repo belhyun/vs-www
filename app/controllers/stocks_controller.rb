@@ -29,9 +29,14 @@ class StocksController < ApplicationController
           @stock.money,
         )
         result = success(UserStock.find_by_id(user_stock.id).as_json(:include => [:user, {:stock => {:methods => 
-                                                                     [:user_stock_cnt, :this_week, :buy_avg_money, :total]}}, :issue]))
+                                                                     [:user_stock_cnt, :this_week, :buy_avg_money, :total]}}]))
         result[:body][:buy_stock_amounts] = stock_amounts
         result[:body][:stock_money] = stock_money 
+        result[:body][:issue] = Issue.open.find_by_id(issue_id).as_json(:methods => [:is_joining, :user_money], 
+          :include => [{:stocks => {:include => {:photo => {:methods => [:kinds]}}, 
+          :methods => [:user_stock_cnt, :this_week, :total, :buy_avg_money]}}, 
+          :photo => {:methods => [:kinds]}])
+
         render :json => result and return
       else
         render :json => fail(Code::MSG[:buy_transaction_fail]) and return
@@ -71,6 +76,11 @@ class StocksController < ApplicationController
                                                                                                       [:user_stock_cnt, :this_week, :buy_avg_money, :total]}}, :issue]))
          result[:body][:sell_stock_amounts] = stock_amounts
          result[:body][:stock_money] = money
+         result[:body][:issue] = Issue.open.find_by_id(issue_id).as_json(:methods => [:is_joining, :user_money], 
+          :include => [{:stocks => {:include => {:photo => {:methods => [:kinds]}}, 
+          :methods => [:user_stock_cnt, :this_week, :total, :buy_avg_money]}}, 
+          :photo => {:methods => [:kinds]}])
+
          render :json => result and return
       end
     when Code::MSG[:user_has_no_stock]

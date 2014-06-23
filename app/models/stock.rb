@@ -17,7 +17,7 @@ class Stock < ActiveRecord::Base
 
   def self.update_money(id)
     stock = Stock.find_by_id(id)
-    stock.update_attribute(:money, stock.start_money * UserStock.count_by_stock(id) / UserStock.count_by_issue(stock.issue.id).ceil.to_i)
+    stock.update_attribute(:money, stock.issue.money * UserStock.count_by_stock(id) / UserStock.count_by_issue(stock.issue.id).ceil.to_i)
     stock.money
   end
 
@@ -40,7 +40,7 @@ class Stock < ActiveRecord::Base
   end
 
   def total
-    UserStock.where(:stock_id => id).sum(:stock_amounts)
+    UserStock.where(:issue_id => issue_id).sum(:stock_amounts)
   end
 
   def buy_avg_money

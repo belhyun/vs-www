@@ -16,7 +16,8 @@ class Code
     :settle_fail => "정산대상이 아닙니다.",
     :settle_done => "정산이 이미 완료되었습니다.",
     :gcm_send_success => "푸쉬 성공",
-    :gcm_send_fail => "푸쉬 실패"
+    :gcm_send_fail => "푸쉬 실패",
+    :settle_ready => "정산 준비 중입니다"
   }
   COMMISION = 0.2
   BUY = 1

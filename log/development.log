@@ -209,3 +209,215 @@
   [1m[36m (0.1ms)[0m  [1mBEGIN[0m
   [1m[35mSQL (10.6ms)[0m  INSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-18 15:56:41', '2014-06-18 15:56:41', 172, 1000)
   [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[36mStock Load (0.3ms)[0m  [1mSELECT `stocks`.* FROM `stocks` INNER JOIN `issues` ON `issues`.`id` = `stocks`.`issue_id` WHERE (end_date >= CURDATE() AND is_closed = 0)[0m
+  [1m[35m (1.0ms)[0m  SELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-20' AND stock_id = 40) AND (stock_type = 1)
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-20' AND stock_id = 40) AND (stock_type = 2)[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (11.7ms)[0m  [1mINSERT INTO `log_stocks` (`created_at`, `stock_buying`, `stock_id`, `stock_money`, `updated_at`) VALUES ('2014-06-20 16:53:24', 3, 40, 254, '2014-06-20 16:53:24')[0m
+  [1m[35m (2.5ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-20' AND stock_id = 41) AND (stock_type = 1)[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-20' AND stock_id = 41) AND (stock_type = 2)
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO `log_stocks` (`created_at`, `stock_id`, `stock_money`, `updated_at`) VALUES ('2014-06-20 16:53:24', 41, 1000, '2014-06-20 16:53:24')
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT `users`.* FROM `users`
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 174 LIMIT 1[0m
+  [1m[35m (1.7ms)[0m  SELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 174 AND `user_stocks`.`is_settled` = 0
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (6.1ms)[0m  INSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-20 16:53:29', '2014-06-20 16:53:29', 174, 1507)
+  [1m[36m (1.9ms)[0m  [1mCOMMIT[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 175 LIMIT 1
+  [1m[36m (0.3ms)[0m  [1mSELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 175 AND `user_stocks`.`is_settled` = 0[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (8.8ms)[0m  [1mINSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-20 16:53:29', '2014-06-20 16:53:29', 175, 126154)[0m
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT `users`.* FROM `users`[0m
+  [1m[35mUser Load (0.3ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 174 LIMIT 1
+  [1m[36m (0.3ms)[0m  [1mSELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 174 AND `user_stocks`.`is_settled` = 0[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-20 17:01:54', '2014-06-20 17:01:54', 174, 5245)[0m
+  [1m[35m (2.7ms)[0m  COMMIT
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 175 LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  SELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 175 AND `user_stocks`.`is_settled` = 0
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (5.9ms)[0m  INSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-20 17:01:54', '2014-06-20 17:01:54', 175, 126154)
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[36mStock Load (0.5ms)[0m  [1mSELECT `stocks`.* FROM `stocks` INNER JOIN `issues` ON `issues`.`id` = `stocks`.`issue_id` WHERE (end_date >= CURDATE() AND is_closed = 0)[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-21' AND stock_id = 42) AND (stock_type = 1)
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-21' AND stock_id = 42) AND (stock_type = 2)[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (8.3ms)[0m  [1mINSERT INTO `log_stocks` (`created_at`, `stock_id`, `stock_money`, `updated_at`) VALUES ('2014-06-21 11:44:38', 42, 500, '2014-06-21 11:44:38')[0m
+  [1m[35m (4.3ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-21' AND stock_id = 43) AND (stock_type = 1)[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-21' AND stock_id = 43) AND (stock_type = 2)
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO `log_stocks` (`created_at`, `stock_id`, `stock_money`, `updated_at`) VALUES ('2014-06-21 11:44:38', 43, 500, '2014-06-21 11:44:38')
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT `users`.* FROM `users`[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 174 LIMIT 1
+  [1m[36m (0.3ms)[0m  [1mSELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 174 AND `user_stocks`.`is_settled` = 0[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (12.5ms)[0m  [1mINSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-21 11:59:27', '2014-06-21 11:59:27', 174, 2705)[0m
+  [1m[35m (3.1ms)[0m  COMMIT
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 175 LIMIT 1[0m
+  [1m[35m (0.3ms)[0m  SELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 175 AND `user_stocks`.`is_settled` = 0
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (15.2ms)[0m  INSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-21 11:59:27', '2014-06-21 11:59:27', 175, 204466)
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 176 LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mSELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 176 AND `user_stocks`.`is_settled` = 0[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (8.9ms)[0m  [1mINSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-21 11:59:27', '2014-06-21 11:59:27', 176, 1000)[0m
+  [1m[35m (0.5ms)[0m  COMMIT
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 177 LIMIT 1[0m
+  [1m[35m (0.3ms)[0m  SELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 177 AND `user_stocks`.`is_settled` = 0
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-21 11:59:27', '2014-06-21 11:59:27', 177, 5920)
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[36mLogUser Load (0.5ms)[0m  [1mSELECT users.name, log_users.user_id = 177 as is_me, 
+ log_users.*, @rownum := @rownum + 1 as rank FROM (select @rownum := 0) b, log_users INNER JOIN `users` ON `users`.`id` = `log_users`.`user_id` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-21') ORDER BY user_money desc[0m
+  [1m[36mStock Load (0.4ms)[0m  [1mSELECT `stocks`.* FROM `stocks` INNER JOIN `issues` ON `issues`.`id` = `stocks`.`issue_id` WHERE (end_date >= CURDATE() AND is_closed = 0)[0m
+  [1m[35m (4.8ms)[0m  SELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-22' AND stock_id = 42) AND (stock_type = 1)
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-22' AND stock_id = 42) AND (stock_type = 2)[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (8.6ms)[0m  [1mINSERT INTO `log_stocks` (`created_at`, `stock_buying`, `stock_id`, `stock_money`, `updated_at`) VALUES ('2014-06-22 11:50:20', 2, 42, 541, '2014-06-22 11:50:20')[0m
+  [1m[35m (5.0ms)[0m  COMMIT
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-22' AND stock_id = 43) AND (stock_type = 1)[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-22' AND stock_id = 43) AND (stock_type = 2)
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO `log_stocks` (`created_at`, `stock_id`, `stock_money`, `updated_at`) VALUES ('2014-06-22 11:50:20', 43, 242, '2014-06-22 11:50:20')
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-22' AND stock_id = 44) AND (stock_type = 1)
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-22' AND stock_id = 44) AND (stock_type = 2)[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO `log_stocks` (`created_at`, `stock_buying`, `stock_id`, `stock_money`, `stock_selling`, `updated_at`) VALUES ('2014-06-22 11:50:20', 2, 44, 10000, 3, '2014-06-22 11:50:20')[0m
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-22' AND stock_id = 45) AND (stock_type = 1)[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-22' AND stock_id = 45) AND (stock_type = 2)
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO `log_stocks` (`created_at`, `stock_id`, `stock_money`, `updated_at`) VALUES ('2014-06-22 11:50:20', 45, 5000, '2014-06-22 11:50:20')
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-22' AND stock_id = 46) AND (stock_type = 1)
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-22' AND stock_id = 46) AND (stock_type = 2)[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (11.8ms)[0m  [1mINSERT INTO `log_stocks` (`created_at`, `stock_id`, `stock_money`, `updated_at`) VALUES ('2014-06-22 11:50:20', 46, 5000, '2014-06-22 11:50:20')[0m
+  [1m[35m (0.6ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-22' AND stock_id = 47) AND (stock_type = 1)[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-22' AND stock_id = 47) AND (stock_type = 2)
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO `log_stocks` (`created_at`, `stock_id`, `stock_money`, `updated_at`) VALUES ('2014-06-22 11:50:20', 47, 5000, '2014-06-22 11:50:20')
+  [1m[36m (0.9ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-22' AND stock_id = 48) AND (stock_type = 1)
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-22' AND stock_id = 48) AND (stock_type = 2)[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (15.2ms)[0m  [1mINSERT INTO `log_stocks` (`created_at`, `stock_id`, `stock_money`, `updated_at`) VALUES ('2014-06-22 11:50:20', 48, 5000, '2014-06-22 11:50:20')[0m
+  [1m[35m (0.5ms)[0m  COMMIT
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-22' AND stock_id = 49) AND (stock_type = 1)[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-22' AND stock_id = 49) AND (stock_type = 2)
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (5.0ms)[0m  INSERT INTO `log_stocks` (`created_at`, `stock_id`, `stock_money`, `updated_at`) VALUES ('2014-06-22 11:50:20', 49, 5000, '2014-06-22 11:50:20')
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-22' AND stock_id = 50) AND (stock_type = 1)
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-22' AND stock_id = 50) AND (stock_type = 2)[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO `log_stocks` (`created_at`, `stock_id`, `stock_money`, `updated_at`) VALUES ('2014-06-22 11:50:20', 50, 5000, '2014-06-22 11:50:20')[0m
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-22' AND stock_id = 51) AND (stock_type = 1)[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-22' AND stock_id = 51) AND (stock_type = 2)
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO `log_stocks` (`created_at`, `stock_id`, `stock_money`, `updated_at`) VALUES ('2014-06-22 11:50:20', 51, 5000, '2014-06-22 11:50:20')
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-22' AND stock_id = 52) AND (stock_type = 1)
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-22' AND stock_id = 52) AND (stock_type = 2)[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.8ms)[0m  [1mINSERT INTO `log_stocks` (`created_at`, `stock_id`, `stock_money`, `updated_at`) VALUES ('2014-06-22 11:50:20', 52, 5000, '2014-06-22 11:50:20')[0m
+  [1m[35m (0.5ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-22' AND stock_id = 53) AND (stock_type = 1)[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-22' AND stock_id = 53) AND (stock_type = 2)
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO `log_stocks` (`created_at`, `stock_id`, `stock_money`, `updated_at`) VALUES ('2014-06-22 11:50:20', 53, 5000, '2014-06-22 11:50:20')
+  [1m[36m (2.8ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-22' AND stock_id = 54) AND (stock_type = 1)
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-22' AND stock_id = 54) AND (stock_type = 2)[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (8.2ms)[0m  [1mINSERT INTO `log_stocks` (`created_at`, `stock_id`, `stock_money`, `updated_at`) VALUES ('2014-06-22 11:50:20', 54, 5000, '2014-06-22 11:50:20')[0m
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36mIssue Load (0.4ms)[0m  [1mSELECT `issues`.* FROM `issues` WHERE (end_date >= CURDATE())[0m
+  [1m[35mIssue Load (0.4ms)[0m  SELECT `issues`.* FROM `issues` WHERE (end_date >= CURDATE()) AND `issues`.`id` = 1055 LIMIT 1
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT `users`.* FROM `users`[0m
+  [1m[35mUser Load (0.3ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 174 LIMIT 1
+  [1m[36m (10.0ms)[0m  [1mSELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 174 AND `user_stocks`.`is_settled` = 0[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (13.7ms)[0m  [1mINSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-23 11:44:21', '2014-06-23 11:44:21', 174, 99995)[0m
+  [1m[35m (1.9ms)[0m  COMMIT
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 175 LIMIT 1[0m
+  [1m[35m (0.3ms)[0m  SELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 175 AND `user_stocks`.`is_settled` = 0
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (10.6ms)[0m  INSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-23 11:44:21', '2014-06-23 11:44:21', 175, 10127999)
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 176 LIMIT 1
+  [1m[36m (0.3ms)[0m  [1mSELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 176 AND `user_stocks`.`is_settled` = 0[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.9ms)[0m  [1mINSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-23 11:44:21', '2014-06-23 11:44:21', 176, 93261)[0m
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 177 LIMIT 1[0m
+  [1m[35m (0.3ms)[0m  SELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 177 AND `user_stocks`.`is_settled` = 0
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.9ms)[0m  INSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-23 11:44:21', '2014-06-23 11:44:21', 177, 99999)
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 178 LIMIT 1
+  [1m[36m (0.3ms)[0m  [1mSELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 178 AND `user_stocks`.`is_settled` = 0[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-23 11:44:21', '2014-06-23 11:44:21', 178, 99999)[0m
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 179 LIMIT 1[0m
+  [1m[35m (0.3ms)[0m  SELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 179 AND `user_stocks`.`is_settled` = 0
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-23 11:44:21', '2014-06-23 11:44:21', 179, 82827)
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 180 LIMIT 1
+  [1m[36m (5.2ms)[0m  [1mSELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 180 AND `user_stocks`.`is_settled` = 0[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (10.7ms)[0m  [1mINSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-23 11:44:21', '2014-06-23 11:44:21', 180, 105999)[0m
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 181 LIMIT 1[0m
+  [1m[35m (0.3ms)[0m  SELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 181 AND `user_stocks`.`is_settled` = 0
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-23 11:44:21', '2014-06-23 11:44:21', 181, 118529)
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 182 LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mSELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 182 AND `user_stocks`.`is_settled` = 0[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-23 11:44:21', '2014-06-23 11:44:21', 182, 1000)[0m
+  [1m[35m (0.5ms)[0m  COMMIT
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 183 LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  SELECT SUM(stocks.money*stock_amounts) AS sum_id FROM `user_stocks` INNER JOIN `stocks` ON `stocks`.`id` = `user_stocks`.`stock_id` WHERE `user_stocks`.`user_id` = 183 AND `user_stocks`.`is_settled` = 0
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO `log_users` (`created_at`, `updated_at`, `user_id`, `user_money`) VALUES ('2014-06-23 11:44:21', '2014-06-23 11:44:21', 183, 1000)
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[36mStock Load (0.4ms)[0m  [1mSELECT `stocks`.* FROM `stocks` INNER JOIN `issues` ON `issues`.`id` = `stocks`.`issue_id` WHERE (end_date >= CURDATE() AND is_closed = 0)[0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-23' AND stock_id = 55) AND (stock_type = 1)
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-23' AND stock_id = 55) AND (stock_type = 2)[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (1.8ms)[0m  [1mINSERT INTO `log_stocks` (`created_at`, `stock_buying`, `stock_id`, `stock_money`, `stock_selling`, `updated_at`) VALUES ('2014-06-23 11:45:32', 11, 55, 2023, 3, '2014-06-23 11:45:32')[0m
+  [1m[35m (2.4ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-23' AND stock_id = 56) AND (stock_type = 1)[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-23' AND stock_id = 56) AND (stock_type = 2)
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (8.5ms)[0m  INSERT INTO `log_stocks` (`created_at`, `stock_buying`, `stock_id`, `stock_money`, `stock_selling`, `updated_at`) VALUES ('2014-06-23 11:45:32', 2, 56, 2009, 1, '2014-06-23 11:45:32')
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-23' AND stock_id = 57) AND (stock_type = 1)
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-23' AND stock_id = 57) AND (stock_type = 2)[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO `log_stocks` (`created_at`, `stock_buying`, `stock_id`, `stock_money`, `updated_at`) VALUES ('2014-06-23 11:45:32', 1, 57, 1996, '2014-06-23 11:45:32')[0m
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-23' AND stock_id = 58) AND (stock_type = 1)[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-23' AND stock_id = 58) AND (stock_type = 2)
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (6.7ms)[0m  INSERT INTO `log_stocks` (`created_at`, `stock_id`, `stock_money`, `updated_at`) VALUES ('2014-06-23 11:45:32', 58, 2000, '2014-06-23 11:45:32')
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-23' AND stock_id = 59) AND (stock_type = 1)
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `log_user_stocks` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = '2014-06-23' AND stock_id = 59) AND (stock_type = 2)[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO `log_stocks` (`created_at`, `stock_id`, `stock_money`, `updated_at`) VALUES ('2014-06-23 11:45:32', 59, 2000, '2014-06-23 11:45:32')[0m
+  [1m[35m (0.4ms)[0m  COMMIT
