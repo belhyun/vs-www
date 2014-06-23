@@ -2,9 +2,13 @@ class LogUser < ActiveRecord::Base
   attr_protected
   belongs_to :user
   scope :today, lambda{where(["DATE_FORMAT(created_at, '%Y-%m-%d') = ?", Date.today])}
-  scope :rank , lambda{|user_id| select("users.name, log_users.user_id = #{user_id} as is_me, log_users.*, @rownum := @rownum + 1 as rank")
-    .from("(select @rownum := 0) b, log_users")
-    .joins(:user).today.order("user_money desc")}
+  scope :rank , lambda{|user_id| select("t.name, t.user_id = #{user_id} as is_me, 
+t.*, @rownum := @rownum + 1 as rank").
+  from("( 
+        select log_users.*, users.name from log_users INNER JOIN `users` ON `users`.`id` = `log_users`.`user_id` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = CURDATE()) order by user_money desc
+      ) t,
+      (select @rownum := 0) b")
+   }
   cattr_accessor :log_user_id
 
   def self.log_user_info

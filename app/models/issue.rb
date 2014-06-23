@@ -8,9 +8,13 @@ class Issue < ActiveRecord::Base
   accepts_nested_attributes_for :photo, :allow_destroy => true
   accepts_nested_attributes_for :stocks, :allow_destroy => true
   scope :open , lambda {where("end_date >= CURDATE()")} 
-  scope :closed , lambda {where("end_date < CURDATE() AND is_closed = 1")}
+  scope :closed , lambda {where("end_date < CURDATE()")}
   after_create :set_start_money
   cattr_accessor :user_id
+  scope :extra_info , lambda {as_json(:methods => [:is_joining, :user_money], 
+          :include => [{:stocks => {:include => {:photo => {:methods => [:kinds]}}, 
+          :methods => [:user_stock_cnt, :this_week, :total, :buy_avg_money]}}, 
+          :photo => {:methods => [:kinds]}])}
 
   def is_settled
     !UserStock.where(["issue_id = ? AND user_id = ? AND is_settled = ?", id, Issue.user_id, true]).blank?
