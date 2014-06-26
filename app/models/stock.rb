@@ -2,8 +2,8 @@ class Stock < ActiveRecord::Base
   attr_protected
   belongs_to :issue, :counter_cache => true
   has_many :users, :through => :userStocks
-  has_many :userStocks
-  has_many :logStocks
+  has_many :userStocks, :dependent => :destroy
+  has_many :logStocks, :dependent => :destroy
   belongs_to :photo
   cattr_accessor :user_id
   accepts_nested_attributes_for :photo, :allow_destroy => true
@@ -16,9 +16,9 @@ class Stock < ActiveRecord::Base
   end
 
   def self.update_money(id)
-    stock = Stock.find_by_id(id)
-    stock.update_attribute(:money, stock.issue.money * UserStock.count_by_stock(id) / UserStock.count_by_issue(stock.issue.id).ceil.to_i)
-    stock.money
+    Stock.find(:all, :conditions => ["issue_id = ?",id]).each{|stock|
+      stock.update_attribute(:money, stock.issue.money * UserStock.count_by_stock(stock.id) / UserStock.count_by_issue(id).ceil.to_i)
+    }
   end
 
   def user_stock_cnt
@@ -44,6 +44,6 @@ class Stock < ActiveRecord::Base
   end
 
   def buy_avg_money
-    LogUserStock.where(:stock_id => id, :user_id => Stock.user_id, :stock_type => 1).average(:stock_money).to_i
+    LogUserStock.select("sum(stock_money*stock_amounts)/sum(stock_amounts) as avg_money").where(:stock_id => id, :user_id => Stock.user_id, :stock_type => 1).first.avg_money.to_i
   end
 end

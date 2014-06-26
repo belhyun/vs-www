@@ -6,7 +6,9 @@ class UserStock < ActiveRecord::Base
   validates_presence_of :stock_amounts , :user_id, :stock_id, :issue_id
   scope :count_by_stock, lambda {|id| where(["stock_id = ?",id]).sum(:stock_amounts)}
   scope :count_by_issue, lambda {|id| where(["issue_id = ?",id]).sum(:stock_amounts)}
+  scope :has_stocks?, lambda{ |user_id| count(:conditions => ["user_id = ?", user_id]) > 0}
   scope :get, lambda {|user_id, stock_id, issue_id| where(["user_id = ? and stock_id = ? and issue_id = ?", user_id, stock_id, issue_id])}
+  scope :get_stock_amounts, lambda{|stock_id, user_id| select("stock_amounts").where(:stock_id => stock_id, :user_id => user_id).first}
 
   def self.is_not_settled(issue_id, user_id)
     UserStock.where(["issue_id = ? AND user_id = ? AND is_settled = ?", issue_id, user_id, true]).blank?
