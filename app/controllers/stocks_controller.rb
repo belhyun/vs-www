@@ -19,7 +19,7 @@ class StocksController < ApplicationController
       else
         user_stock = UserStock.create(:user_id => @user_id, :stock_id => stock_id, :issue_id => issue_id, :stock_amounts=> stock_amounts)
       end
-      if User.buy_stocks(@user_id, @stock.money, stock_amounts) && stock_money = Stock.update_money(stock_id)
+      if User.buy_stocks(@user_id, @stock.money, stock_amounts) && Stock.update_money(issue_id)
         insert_log(
           Code::BUY,
           stock_amounts, 
@@ -31,7 +31,6 @@ class StocksController < ApplicationController
         result = success(UserStock.find_by_id(user_stock.id).as_json(:include => [:user, {:stock => {:methods => 
                                                                      [:user_stock_cnt, :this_week, :buy_avg_money, :total]}}]))
         result[:body][:buy_stock_amounts] = stock_amounts
-        result[:body][:stock_money] = stock_money 
         result[:body][:issue] = Issue.open.find_by_id(issue_id).as_json(:methods => [:is_joining, :user_money], 
           :include => [{:stocks => {:include => {:photo => {:methods => [:kinds]}}, 
           :methods => [:user_stock_cnt, :this_week, :total, :buy_avg_money]}}, 
@@ -63,7 +62,7 @@ class StocksController < ApplicationController
     case result = User.sell_status(@user_id, stock_id, stock_amounts)
     when Code::MSG[:success]
       user_stock = UserStock.find(:first, :conditions => ["user_id = ? and stock_id = ? and issue_id = ?",@user_id, stock_id, issue_id])
-      if UserStock.sell_stocks(@user_id, stock_id, stock_amounts) && User.sell_stocks(@user_id, @stock.money, stock_amounts) && money = Stock.update_money(stock_id)
+      if UserStock.sell_stocks(@user_id, stock_id, stock_amounts) && User.sell_stocks(@user_id, @stock.money, stock_amounts) && Stock.update_money(issue_id)
          insert_log(
            Code::SELL,
            stock_amounts, 
@@ -75,7 +74,6 @@ class StocksController < ApplicationController
          result = success(UserStock.find_by_id(user_stock.id).as_json(:include => [:user, {:stock => {:methods => 
                                                                                                       [:user_stock_cnt, :this_week, :buy_avg_money, :total]}}, :issue]))
          result[:body][:sell_stock_amounts] = stock_amounts
-         result[:body][:stock_money] = money
          result[:body][:issue] = Issue.open.find_by_id(issue_id).as_json(:methods => [:is_joining, :user_money], 
           :include => [{:stocks => {:include => {:photo => {:methods => [:kinds]}}, 
           :methods => [:user_stock_cnt, :this_week, :total, :buy_avg_money]}}, 

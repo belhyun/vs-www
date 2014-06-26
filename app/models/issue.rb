@@ -3,8 +3,9 @@ class Issue < ActiveRecord::Base
   attr_protected
   belongs_to :photo
   has_many :stocks, :dependent => :destroy
-  has_many :userStocks
-  has_many :logUserStocks
+  has_many :userStocks, :dependent => :destroy
+  has_many :logUserStocks, :dependent => :destroy
+
   accepts_nested_attributes_for :photo, :allow_destroy => true
   accepts_nested_attributes_for :stocks, :allow_destroy => true
   scope :open , lambda {where("end_date >= CURDATE()")} 
@@ -38,8 +39,8 @@ class Issue < ActiveRecord::Base
   end
 
   def is_joining
-    user_stock = UserStock.find(:first, :conditions => ["issue_id = ? AND user_id = ?", id, Issue.user_id])
-    if user_stock.nil? || user_stock.stock_amounts == 0 then false else true end
+    result = UserStock.where("issue_id = ? AND  user_id = ?", id, Issue.user_id).sum(:stock_amounts)
+    if  result == 0 then false else true end
   end
 
   def user_money
