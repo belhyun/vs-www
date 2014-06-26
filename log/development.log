@@ -306,3 +306,34 @@ DEPRECATION WARNING: Relation#all is deprecated. If you want to eager-load a rel
   [1m[35mUserStock Load (0.4ms)[0m  SELECT `user_stocks`.* FROM `user_stocks` WHERE `user_stocks`.`stock_id` = 66 AND `user_stocks`.`user_id` = 194 ORDER BY `user_stocks`.`id` ASC LIMIT 1
   [1m[36mUserStock Load (0.4ms)[0m  [1mSELECT `user_stocks`.* FROM `user_stocks` WHERE `user_stocks`.`stock_id` = 66 AND `user_stocks`.`user_id` = 194 ORDER BY `user_stocks`.`id` ASC LIMIT 1[0m
   [1m[35mUserStock Load (0.4ms)[0m  SELECT `user_stocks`.* FROM `user_stocks` WHERE `user_stocks`.`stock_id` = 66 AND `user_stocks`.`user_id` = 194 ORDER BY `user_stocks`.`id` ASC LIMIT 1
+  [1m[36mUserStock Load (0.4ms)[0m  [1mSELECT stock_amounts FROM `user_stocks` WHERE `user_stocks`.`stock_id` = 66 AND `user_stocks`.`user_id` = 194[0m
+  [1m[35mUserStock Load (0.4ms)[0m  SELECT stock_amounts FROM `user_stocks` WHERE `user_stocks`.`stock_id` = 66 AND `user_stocks`.`user_id` = 194
+  [1m[36mUserStock Load (0.4ms)[0m  [1mSELECT stock_amounts FROM `user_stocks` WHERE `user_stocks`.`stock_id` = 66 AND `user_stocks`.`user_id` = 194[0m
+  [1m[35mUserStock Load (0.4ms)[0m  SELECT stock_amounts FROM `user_stocks` WHERE `user_stocks`.`stock_id` = 66 AND `user_stocks`.`user_id` = 194
+  [1m[36mUserStock Load (1.1ms)[0m  [1mSELECT stock_amounts FROM `user_stocks` WHERE `user_stocks`.`stock_id` = 66 AND `user_stocks`.`user_id` = 194[0m
+  [1m[35mUserStock Load (0.4ms)[0m  SELECT stock_amounts FROM `user_stocks` WHERE `user_stocks`.`stock_id` = 66 AND `user_stocks`.`user_id` = 194
+  [1m[36mUserStock Load (11.6ms)[0m  [1mSELECT stock_amounts FROM `user_stocks` WHERE `user_stocks`.`stock_id` = 66 AND `user_stocks`.`user_id` = 194[0m
+  [1m[35mUserStock Load (0.4ms)[0m  SELECT stock_amounts FROM `user_stocks` WHERE `user_stocks`.`stock_id` = 66 AND `user_stocks`.`user_id` = 194
+  [1m[36mUserStock Load (0.5ms)[0m  [1mSELECT stock_amounts FROM `user_stocks` WHERE `user_stocks`.`stock_id` = 66 AND `user_stocks`.`user_id` = 194[0m
+  [1m[36mUserStock Load (0.4ms)[0m  [1mSELECT stock_amounts FROM `user_stocks` WHERE `user_stocks`.`stock_id` = 66 AND `user_stocks`.`user_id` = 194[0m
+  [1m[35mUserStock Load (0.4ms)[0m  SELECT stock_amounts FROM `user_stocks` WHERE `user_stocks`.`stock_id` = 66 AND `user_stocks`.`user_id` = 194
+  [1m[36mUserStock Load (0.5ms)[0m  [1mSELECT stock_amounts FROM `user_stocks` WHERE `user_stocks`.`stock_id` = 66 AND `user_stocks`.`user_id` = 194[0m
+  [1m[35mUserStock Load (0.4ms)[0m  SELECT stock_amounts FROM `user_stocks` WHERE `user_stocks`.`stock_id` = 66 AND `user_stocks`.`user_id` = 194 ORDER BY `user_stocks`.`id` ASC LIMIT 1
+DEPRECATION WARNING: Calling #find(:first) is deprecated. Please call #first directly instead. You have also used finder options. These are also deprecated. Please build a scope instead of using finder options. (called from irb_binding at (irb):7)
+  [1m[36mUserStock Load (0.5ms)[0m  [1mSELECT `user_stocks`.* FROM `user_stocks` WHERE `user_stocks`.`stock_id` = 66 AND `user_stocks`.`user_id` = 194 ORDER BY `user_stocks`.`id` ASC LIMIT 1[0m
+DEPRECATION WARNING: Calling #find(:first) is deprecated. Please call #first directly instead. You have also used finder options. These are also deprecated. Please build a scope instead of using finder options. (called from irb_binding at (irb):8)
+  [1m[35mUserStock Load (0.5ms)[0m  SELECT `user_stocks`.* FROM `user_stocks` WHERE `user_stocks`.`stock_id` = 66 AND `user_stocks`.`user_id` = 194 ORDER BY `user_stocks`.`id` ASC LIMIT 1
+DEPRECATION WARNING: Calling #find(:first) is deprecated. Please call #first directly instead. You have also used finder options. These are also deprecated. Please build a scope instead of using finder options. (called from irb_binding at (irb):9)
+  [1m[36mUserStock Load (0.5ms)[0m  [1mSELECT `user_stocks`.* FROM `user_stocks` WHERE `user_stocks`.`stock_id` = 66 AND `user_stocks`.`user_id` = 193 ORDER BY `user_stocks`.`id` ASC LIMIT 1[0m
+DEPRECATION WARNING: Calling #find(:first) is deprecated. Please call #first directly instead. You have also used finder options. These are also deprecated. Please build a scope instead of using finder options. (called from irb_binding at (irb):10)
+  [1m[35mUserStock Load (0.5ms)[0m  SELECT `user_stocks`.* FROM `user_stocks` WHERE `user_stocks`.`stock_id` = 66 AND `user_stocks`.`user_id` = 193 ORDER BY `user_stocks`.`id` ASC LIMIT 1
+DEPRECATION WARNING: Calling #find(:first) is deprecated. Please call #first directly instead. You have also used finder options. These are also deprecated. Please build a scope instead of using finder options. (called from irb_binding at (irb):1)
+  [1m[36mUserStock Load (0.5ms)[0m  [1mSELECT `user_stocks`.* FROM `user_stocks` WHERE `user_stocks`.`stock_id` = 66 AND `user_stocks`.`user_id` IS NULL ORDER BY `user_stocks`.`id` ASC LIMIT 1[0m
+DEPRECATION WARNING: Calling #find(:first) is deprecated. Please call #first directly instead. You have also used finder options. These are also deprecated. Please build a scope instead of using finder options. (called from irb_binding at (irb):2)
+  [1m[35mUserStock Load (0.4ms)[0m  SELECT `user_stocks`.* FROM `user_stocks` WHERE `user_stocks`.`stock_id` = 66 AND `user_stocks`.`user_id` = 1 ORDER BY `user_stocks`.`id` ASC LIMIT 1
+DEPRECATION WARNING: Calling #find(:first) is deprecated. Please call #first directly instead. You have also used finder options. These are also deprecated. Please build a scope instead of using finder options. (called from irb_binding at (irb):3)
+  [1m[36mUserStock Load (0.4ms)[0m  [1mSELECT `user_stocks`.* FROM `user_stocks` WHERE `user_stocks`.`stock_id` = 66 AND `user_stocks`.`user_id` = 1 ORDER BY `user_stocks`.`id` ASC LIMIT 1[0m
+DEPRECATION WARNING: Calling #find(:first) is deprecated. Please call #first directly instead. You have also used finder options. These are also deprecated. Please build a scope instead of using finder options. (called from irb_binding at (irb):4)
+  [1m[35mUserStock Load (0.4ms)[0m  SELECT `user_stocks`.* FROM `user_stocks` WHERE `user_stocks`.`stock_id` = 66 AND `user_stocks`.`user_id` = 194 ORDER BY `user_stocks`.`id` ASC LIMIT 1
+DEPRECATION WARNING: Calling #find(:first) is deprecated. Please call #first directly instead. You have also used finder options. These are also deprecated. Please build a scope instead of using finder options. (called from irb_binding at (irb):5)
+  [1m[36mUserStock Load (0.4ms)[0m  [1mSELECT `user_stocks`.* FROM `user_stocks` WHERE `user_stocks`.`stock_id` = 66 AND `user_stocks`.`user_id` = 194 ORDER BY `user_stocks`.`id` ASC LIMIT 1[0m
