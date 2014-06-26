@@ -44,6 +44,11 @@ class Stock < ActiveRecord::Base
   end
 
   def buy_avg_money
-    LogUserStock.select("sum(stock_money*stock_amounts)/sum(stock_amounts) as avg_money").where(:stock_id => id, :user_id => Stock.user_id, :stock_type => 1).first.avg_money.to_i
+    user_stock = UserStock.find(:first, :conditions => {:stock_id => id, :user_id => Stock.user_id})
+    if user_stock.nil? || user_stock.stock_amounts == 0
+      0
+    else
+      LogUserStock.select("sum(stock_money*stock_amounts)/sum(stock_amounts) as avg_money").where(:stock_id => id, :user_id => Stock.user_id, :stock_type => 1).first.avg_money.to_i
+    end
   end
 end
