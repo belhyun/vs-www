@@ -5,8 +5,37 @@ class Photo < ActiveRecord::Base
   has_one :user
   attr_accessor :image, :image_url
   has_attached_file :image, :styles => { 
-    :xlarge => "500x500>", :large => "192x192>", :medium => "720x720>", :small => "100x75>" },
+    :xlarge => "500x500>", :large => "720x720>", 
+    :large => {
+      :geometry => "720x720>",
+      :processor_options =>{
+        :compression => {
+          :png => '-copy none -optimize',
+          :jpeg => '-copy none -optimize'
+        }
+      }
+    }, 
+    :medium => {
+      :geometry => "360x360>",
+      :processor_options =>{
+        :compression => {
+          :png => '-copy none -optimize',
+          :jpeg => '-copy none -optimize'
+        }
+      }
+    }, 
+    :small => {
+      :geometry => "180x180>",
+      :processor_options =>{
+          :compression => {
+            :png => '-copy none -optimize',
+            :jpeg => '-copy none -optimize'
+          }
+        }
+      }
+    },
     :url => "/images/photos/:id/:id_:style.:extension"
+
   before_validation :download_remote_image, :if => :image_url_provided?
   def medium 
     sprintf("%s",image.url(:medium))
