@@ -15,6 +15,15 @@ class StocksController < ApplicationController
         user_stock = UserStock.find(:first, :conditions => ["user_id = ? and stock_id = ? and issue_id = ?",@user_id, stock_id, issue_id])
         if !UserStock.find_by_id(user_stock.id).increment!(:stock_amounts, stock_amounts) 
           render :json => fail(Code::MSG[:buy_transaction_fail]) and return
+        else
+          if user_stock.avg_money == 0
+            avg_money = 1
+          else
+            avg_money = user_stock.avg_money
+          end
+
+          user_stock.update_attribute(:avg_money, 
+          ((avg_money*user_stock.stock_amounts)+(@stock.money*stock_amounts))/(user_stock.stock_amounts + stock_amounts))
         end
       else
         user_stock = UserStock.create(:user_id => @user_id, :stock_id => stock_id, :issue_id => issue_id, :stock_amounts=> stock_amounts)
@@ -63,6 +72,9 @@ class StocksController < ApplicationController
     when Code::MSG[:success]
       user_stock = UserStock.find(:first, :conditions => ["user_id = ? and stock_id = ? and issue_id = ?",@user_id, stock_id, issue_id])
       if UserStock.sell_stocks(@user_id, stock_id, stock_amounts) && User.sell_stocks(@user_id, @stock.money, stock_amounts) && Stock.update_money(issue_id)
+        if user_stock.stock_amounts == stock_amounts
+          user_stock.update_attribute(:avg_money, 0)
+        end
          insert_log(
            Code::SELL,
            stock_amounts, 
