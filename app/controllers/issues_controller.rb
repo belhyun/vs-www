@@ -35,6 +35,23 @@ class IssuesController < ApplicationController
     end
   end
 
+  def show
+    Issue.user_id = Stock.user_id = @user_id
+    @issues = Issue.find_by_id(params[:id])
+      .as_json(:methods => [:is_joining, :user_money], 
+    :include => [{:stocks => {:include => {:photo => {:methods => [:kinds]}}, 
+    :methods => [:user_stock_cnt, :this_week, :total, :buy_avg_money]}}, 
+    :photo => {:methods => [:kinds]}])
+    respond_to do |format|
+      if is_auth?
+        @success = success(@issues)
+        format.json{render :json => @success}
+      else
+        format.json{render :json => fail(APP_CONFIG['unauthorized'])}
+      end
+    end
+  end
+
   def closed
     Issue.user_id = @user_id
     @closed_issues = Issue.closed
