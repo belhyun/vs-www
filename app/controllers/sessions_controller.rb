@@ -8,30 +8,22 @@ class SessionsController < ApplicationController
     if !info.nil? 
       case info[:provider]
       when 'twitter'
-        if !user_exist?
           gon.user = User.create_with(:name => info[:info][:name], :image => info[:info][:image], :sns_id => info[:uid],
                            :email => "#{info[:info][:name]}@twitter.com", :mem_type => TWITTER,
                            :money => Code::SEED_MONEY, :nickname => info[:info][:nickname])
                   .find_or_create_by(:email => "#{info[:info][:name]}@twitter.com")
-        else
-          gon.user = User.update(@user_id,:acc_token => User.new.gen_token, :expires => User.new.gen_expires) 
-        end
       when 'facebook'
-        if !user_exist?
-          gon.user = User.create_with(:name => info[:info][:name], :image => process_uri(info[:info][:image]), :sns_id => info[:uid],
+          gon.user = User.create_with(:name => info[:info][:name], :image_url => info[:info][:image], :sns_id => info[:uid],
                            :email => info[:info][:email], :mem_type => FACEBOOK,
                            :money => Code::SEED_MONEY, :nickname => info[:info][:name])
                   .find_or_create_by(:email => info[:info][:email])
-        else
-          gon.user = User.update(@user_id,:acc_token => User.new.gen_token, :expires => User.new.gen_expires) 
-        end
       end
     end
     render :vs, :layout => false
   end
 
   def vs
-    if !user_exist?
+    if User.find_by_email(params.permit(:email)[:email]).blank?
       gon.user = User.create(:mem_type => GUEST, :money => Code::SEED_MONEY,
                              :nickname => params.permit(:nick)[:nick],
                              :email => params.permit(:email)[:email],

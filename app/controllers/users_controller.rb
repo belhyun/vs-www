@@ -1,14 +1,17 @@
 class UsersController < ApplicationController
-  skip_before_filter :verify_authenticity_token, :only => [:is_dup, :image, :bankruptcy, :work, :gcm]
+  skip_before_filter :verify_authenticity_token, :only => [:is_dup, :image, :bankruptcy, :work, :gcm, :change_pwd, :change_nick]
   before_action :set_user, :only => [:bankruptcy, :work]
 
   def index
   end
   
   def is_dup
-    @user = User.find(:first, :conditions => ["email = ?",params.permit(:email)[:email]])
-    if !@user.nil?
+    @email = User.find(:first, :conditions => ["email = ?",params.permit(:email)[:email]])
+    @nick = User.find(:first, :conditions => ["nickname = ?",params.permit(:nick)[:nick]])
+    if !@email.nil?
       render :json => success({code:2, msg:'exists email'})
+    elsif !@nick.nil?
+      render :json => success({code:1, msg:'exists nick'})
     else
       render :json => fail('not exists')
     end
@@ -87,6 +90,26 @@ class UsersController < ApplicationController
       end
     else
       render :json =>fail(Code::MSG[:not_work])
+    end
+  end
+
+  def change_pwd
+    if @user.update_attribute(:password, params[:pwd])
+      render :json => success("success")
+    else
+      render :json => fail(Code::MSG[:change_pwd_fail])
+    end
+  end
+
+  def change_nick
+    @nick = User.find(:first, :conditions => ["nickname = ?",params.permit(:nick)[:nick]])
+    if !@nick.blank?
+      render :json => fail(Code::MSG[:nick_dup]) and return
+    end
+    if @user.update_attribute(:nickname, params[:nick])
+      render :json => success("success")
+    else
+      render :json => fail(Code::MSG[:change_nick_fail])
     end
   end
 
