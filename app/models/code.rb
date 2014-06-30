@@ -17,7 +17,10 @@ class Code
     :settle_done => "정산이 이미 완료되었습니다.",
     :gcm_send_success => "푸쉬 성공",
     :gcm_send_fail => "푸쉬 실패",
-    :settle_ready => "정산 준비 중입니다"
+    :settle_ready => "정산 준비 중입니다",
+    :change_pwd_fail => "비밀번호 변경에 실패했습니다.",
+    :change_nick_fail => "닉네임 변경에 실패했습니다.",
+    :nick_dup => "이미 사용 중인 닉네임입니다"
   }
   COMMISION = 0.2
   BUY = 1

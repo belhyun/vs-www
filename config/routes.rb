@@ -23,6 +23,8 @@ VsWww::Application.routes.draw do
       post 'image'
       post 'bankruptcy'
       get 'work'
+      post 'change_pwd'
+      post 'change_nick'
     end
   end
   
