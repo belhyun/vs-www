@@ -31,6 +31,7 @@ VsWww::Application.routes.draw do
   resources :gcms do
     collection do 
       post 'reg'
+      post 'state'
       get 'send_msg'
     end
   end

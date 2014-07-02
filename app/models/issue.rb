@@ -10,12 +10,50 @@ class Issue < ActiveRecord::Base
   accepts_nested_attributes_for :stocks, :allow_destroy => true
   scope :open , lambda {where("end_date >= CURDATE()")} 
   scope :closed , lambda {where("end_date < CURDATE()")}
-  after_create :set_start_money
+  after_create :set_start_money, :push_issue_created
+  after_update :push_settled
   cattr_accessor :user_id
   scope :extra_info , lambda {as_json(:methods => [:is_joining, :user_money], 
           :include => [{:stocks => {:include => {:photo => {:methods => [:kinds]}}, 
           :methods => [:user_stock_cnt, :this_week, :total, :buy_avg_money]}}, 
           :photo => {:methods => [:kinds]}])}
+
+  def push_issue_created
+    gcm = GCM.new(APP_CONFIG['gcm_api_key'])
+    if !gcm.nil?
+      reg_ids = User.all.select(:gcm_id).reject{|a|a[:gcm_id].nil?||a[:gcm_id] == 0}.map{|user| user.gcm_id}
+      options = {
+        data: {
+          :msg => "새로운 이슈가 등록되었습니다."
+        },
+        :collapse_key => "issue_created"
+      }
+      response = gcm.send_notification(reg_ids, options)
+      if response[:status_code] == 200 && response[:response] == "success"
+        return true
+      end
+      return false
+    end
+  end
+
+  def push_settled
+    gcm = GCM.new(APP_CONFIG['gcm_api_key'])
+    if is_closed
+      reg_ids = UserStock.all.select("users.gcm_id").joins(:user).where(["issue_id = #{id} AND user_stocks.stock_amounts > 0 AND users.is_push = 1"])
+        .reject{|a|a[:gcm_id].nil?||a[:gcm_id] == 0}.map{|user| user.gcm_id}
+      options = {
+        data: {
+          :msg => "이슈 정산이 시작되었습니다."
+        },
+        :collapse_key => "issue_settled"
+      }
+      response = gcm.send_notification(reg_ids, options)
+      if response[:status_code] == 200 && response[:response] == "success"
+        return true
+      end
+      return false
+    end
+  end
 
   def is_settled
     !UserStock.where(["issue_id = ? AND user_id = ? AND is_settled = ?", id, Issue.user_id, true]).blank?
