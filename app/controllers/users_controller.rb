@@ -102,12 +102,13 @@ class UsersController < ApplicationController
   end
 
   def change_nick
-    @nick = User.find(:first, :conditions => ["nickname = ?",params.permit(:nick)[:nick]])
+    nickname = URI.decode_www_form_component(params.permit(:nick)[:nick])
+    @nick = User.find(:first, :conditions => ["nickname = ?",nickname])
     if !@nick.blank?
       render :json => fail(Code::MSG[:nick_dup]) and return
     end
-    if @user.update_attribute(:nickname, params[:nick])
-      render :json => success("success")
+    if @user.update_attribute(:nickname, nickname)
+      render :json => success({:nick => nickname})
     else
       render :json => fail(Code::MSG[:change_nick_fail])
     end

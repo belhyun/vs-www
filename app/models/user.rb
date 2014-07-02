@@ -21,9 +21,13 @@
   end
   def gen_identity
     case mem_type
-    when 'G'
-      self.name = "VS_#{User.maximum('id').to_i + 1}"
-      #self.email = "GUEST_#{User.maximum('id').to_i + 1}@versus.com"
+      when 'G'
+        self.name = "IF_#{User.maximum('id').to_i + 1}"
+        #self.email = "GUEST_#{User.maximum('id').to_i + 1}@versus.com"
+      when 'F'
+        self.nickname = "IF_#{(User.maximum('id').to_i + 1).to_s(16)}"
+      when 'T'
+        self.nickname = "IF_#{(User.maximum('id').to_i + 1).to_s(16)}"
     end
   end
   def expires=(expires)
