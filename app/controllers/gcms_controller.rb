@@ -1,11 +1,11 @@
 class GcmsController < ApplicationController
-  skip_before_filter :verify_authenticity_token, :only => [:reg, :send]
+  skip_before_filter :verify_authenticity_token, :only => [:reg, :send, :state]
   def reg
     if @user_id.nil?
       render :json =>fail(Code::MSG[:user_not_found]) and return
     end
 
-    if User.update(@user_id, :gcm_id => gcm_params[:gcm_id])
+    if User.update(@user_id, :gcm_id => params[:gcm_id])
       render :json =>success(nil)
     else
       render :json =>fail()
@@ -29,5 +29,16 @@ class GcmsController < ApplicationController
       render :json =>  success(Code::MSG[:gcm_send_success]) and return
     end
     render :json => fail(Code::MSG[:gcm_send_fail]) and return
+  end
+
+  def state
+    if params[:state].blank?
+      render :json =>fail()
+    end
+    if User.update(@user_id, :is_push => params[:state])
+      render :json =>success(nil)
+    else
+      render :json =>fail()
+    end
   end
 end
