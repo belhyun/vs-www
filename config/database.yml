@@ -24,7 +24,11 @@ test:
   socket: /var/lib/mysql/mysql.sock
 
 production:
-  adapter: sqlite3
-  database: db/production.sqlite3
-  pool: 5
-  timeout: 5000
+  adapter: mysql2
+  encoding: utf8
+  database: ifdb
+  username: ifadmin
+  password: wpfkwpfk1
+  host: 172.27.210.29
+  port: 3306
+  timeout: 5000 

@@ -77,4 +77,9 @@ VsWww::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  config.host = "http://14.63.198.222:9999"
+
+  Paperclip.options[:command_path] = "/usr/bin/"
+
 end
