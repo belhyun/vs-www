@@ -8,14 +8,16 @@ class SessionsController < ApplicationController
     if !info.nil? 
       case info[:provider]
       when 'twitter'
-          gon.user = User.create_with(:name => info[:info][:name], :image => info[:info][:image], :sns_id => info[:uid],
-                           :email => "#{info[:info][:name]}@twitter.com", :mem_type => TWITTER,
-                           :money => Code::SEED_MONEY, :nickname => info[:info][:nickname])
-                  .find_or_create_by(:email => "#{info[:info][:name]}@twitter.com")
+        #if !info[:info][:nickname].nil? && !User.fnid_by_nickname(info[:info][:nickname]).blank?
+        #end
+        gon.user = User.create_with(:name => info[:info][:name], :image => info[:info][:image], :sns_id => info[:uid],
+                                    :email => "#{info[:info][:name]}@twitter.com", :mem_type => TWITTER,
+                                    :money => Code::SEED_MONEY)
+          .find_or_create_by(:email => "#{info[:info][:name]}@twitter.com")
       when 'facebook'
           gon.user = User.create_with(:name => info[:info][:name], :image_url => info[:info][:image], :sns_id => info[:uid],
                            :email => info[:info][:email], :mem_type => FACEBOOK,
-                           :money => Code::SEED_MONEY, :nickname => info[:info][:name])
+                           :money => Code::SEED_MONEY)
                   .find_or_create_by(:email => info[:info][:email])
       end
     end

@@ -40,7 +40,7 @@ class Stock < ActiveRecord::Base
   end
 
   def total
-    UserStock.where(:issue_id => issue_id).sum(:stock_amounts)
+    LogUserStock.where(:issue_id => issue_id).sum(:stock_amounts)
   end
 
   def buy_avg_money
