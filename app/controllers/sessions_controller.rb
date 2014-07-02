@@ -40,7 +40,8 @@ class SessionsController < ApplicationController
   end
 
   def signin
-    user = User.find(:first, :conditions => ["email = ? AND password =  ?",params[:email], params[:password]])
+    user = User.find(:first, :conditions => ["email = ? AND password =  ?",params[:email], 
+                                             BCrypt::Engine.hash_secret(params[:password], User::BCRYPT_SALT)])
     gon.user = User.update(user.id,:acc_token => User.new.gen_token, :expires => User.new.gen_expires) 
     render :vs, :layout => false
   end

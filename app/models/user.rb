@@ -1,6 +1,6 @@
  class User < ActiveRecord::Base
   attr_protected
-  before_create :gen_token, :gen_expires, :gen_identity
+  before_create :gen_token, :gen_expires, :gen_identity, :encrypt_pwd
   has_many :stocks, :through => :userStocks
   has_many :userStocks
   has_many :logUserStocks
@@ -9,6 +9,13 @@
   scope :is_in_week, lambda{|t| (Time.now - t)/ 7.day > 1}
   belongs_to :photo
   accepts_nested_attributes_for :photo, :allow_destroy => true
+  BCRYPT_SALT = "$2a$10$XriDBfZd5.1BL8RJJTJ3iu"
+
+  def encrypt_pwd
+    if password.present?
+      self.password = BCrypt::Engine.hash_secret(password, BCRYPT_SALT)
+    end
+  end
 
   def gen_token
     self.acc_token = loop do
