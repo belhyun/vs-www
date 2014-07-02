@@ -69,3 +69,4 @@ group :production do
   gem 'therubyracer'
   gem 'unicorn'
 end
+gem 'bcrypt-ruby', :require => 'bcrypt'

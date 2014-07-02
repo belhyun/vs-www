@@ -23,7 +23,10 @@
       if(_.isStrEmpty(nick))
         alert $_.ERR_MSG.NICK_EMPTY
         return
-      if(!/^[a-zA-Z\d]{6,14}$/.test nick)
+      if(!/^[a-zA-Z\d]{6,14}$/.test pwd)
+        alert $_.ERR_MSG.PWD_FORMAT
+        return
+      if(!/^.{1,5}$/.test nick)
         alert $_.ERR_MSG.NICK_FORMAT
         return
       args = {}

@@ -1,6 +1,7 @@
 window.ERR_MSG = {}
 window.ERR_MSG.EMAIL_EMPTY = "이메일을 정확히 입력해주세요."
 window.ERR_MSG.PWD_EMPTY = "비밀번호를 정확히 입력해주세요."
+window.ERR_MSG.PWD_FORMAT = "비밀번호는 6자~14자, 숫자 및 영문으로 간격 없이 설정하셔야 합니다."
 window.ERR_MSG.NICK_EMPTY = "닉네임을 정확히 입력해주세요."
 window.ERR_MSG.NICK_FORMAT = "닉네임은 6자글자 이하입니다."
 window.ERR_MSG.EMAIL_FORMAT = "이메일의 포맷을 확인해 주세요."

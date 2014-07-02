@@ -18,7 +18,8 @@ class UsersController < ApplicationController
   end
 
   def is_valid_user
-    @user = User.find(:first, :conditions => ["email = ? AND password =  ?",params[:email], params[:password]])
+    @user = User.find(:first, :conditions => ["email = ? AND password =  ?",params[:email], 
+                                              BCrypt::Engine.hash_secret(params[:password], User::BCRYPT_SALT)])
     if !@user.nil?
       render :json => success({code:1, msg:'valid user'})
     else
