@@ -32,7 +32,7 @@ class UsersController < ApplicationController
     user = User.find_by_id(@user_id)
     unless user.nil?
       result = user.as_json(:methods => 
-                                           [:weekly_change, :total_change], 
+                                           [:weekly_change, :total_change, :total], 
                                              :include =>
                                            [{:photo => 
                                              {:methods => [:kinds]}},

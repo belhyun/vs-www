@@ -3,32 +3,55 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 (($_) ->
   $(document).ready ->
+    IFAlert = (message) ->
+      $("<div></div>").dialog(
+        buttons:
+          Ok: ->
+            $(this).dialog "close"
+            return
+          close: (event, ui) ->
+            $(this).remove()
+            return
+        resizable: false
+        title: "IF"
+        modal: true
+        dialogClass: "no-close"
+      ).text message
+      return
+    uri = new URI(document.url)
+    if uri.query(true).error == "duplicate"
+      IFAlert $_.ERR_MSG.DUPLICATE
+      return
     $("#member-section #signup").click ->
       email = $("#input input[type=email]").val()
       pwd = $("#input input[type=password]").val()
-      nick = prompt("사용할 닉네임을 입력해주세요!")
-      if !nick
-        alert "닉네임을 입력해 주세요"
-        return false
 
       if(_.isStrEmpty(email))
-        alert $_.ERR_MSG.EMAIL_EMPTY
+        IFAlert $_.ERR_MSG.EMAIL_EMPTY
         return
       if(!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test email)
-        alert $_.ERR_MSG.EMAIL_FORMAT
+        IFAlert $_.ERR_MSG.EMAIL_FORMAT
         return
       if(_.isStrEmpty(pwd))
-        alert $_.ERR_MSG.PWD_EMPTY
-        return
-      if(_.isStrEmpty(nick))
-        alert $_.ERR_MSG.NICK_EMPTY
+        IFAlert $_.ERR_MSG.PWD_EMPTY
         return
       if(!/^[a-zA-Z\d]{6,14}$/.test pwd)
-        alert $_.ERR_MSG.PWD_FORMAT
+        IFAlert $_.ERR_MSG.PWD_FORMAT
         return
+
+      nick = prompt("사용할 닉네임을 입력해주세요!")
+      if !nick
+        IFAlert "닉네임을 입력해 주세요"
+        return false
+
+      if(_.isStrEmpty(nick))
+        IFAlert $_.ERR_MSG.NICK_EMPTY
+        return
+
       if(!/^.{1,5}$/.test nick)
-        alert $_.ERR_MSG.NICK_FORMAT
+        IFAlert $_.ERR_MSG.NICK_FORMAT
         return
+
       args = {}
       args.type = 'POST'
       args.dataType = 'JSON'
@@ -36,10 +59,10 @@
       args.data = {"email":email, "nick":nick}
       args.success = (resp)->
         if resp.body.code == 2
-          alert $_.ERR_MSG.EMAIL_DUP
+          IFAlert $_.ERR_MSG.EMAIL_DUP
           return
         else if resp.body.code == 1
-          alert $_.ERR_MSG.NICK_DUP
+          IFAlert $_.ERR_MSG.NICK_DUP
           return
       args.fail = ->
         uri = new URI(document.URL).query(true)
@@ -53,13 +76,13 @@
       email = $("#input input[type=email]").val()
       pwd = $("#input input[type=password]").val()
       if(_.isStrEmpty(email))
-        alert $_.ERR_MSG.EMAIL_EMPTY
+        IFAlert $_.ERR_MSG.EMAIL_EMPTY
         return
       if(!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test email)
-        alert $_.ERR_MSG.EMAIL_FORMAT
+        IFAlert $_.ERR_MSG.EMAIL_FORMAT
         return
       if(_.isStrEmpty(pwd))
-        alert $_.ERR_MSG.PWD_EMPTY
+        IFAlert $_.ERR_MSG.PWD_EMPTY
         return
       uri = new URI(document.URL).query(true)
       args = {}
@@ -74,7 +97,7 @@
           .addSearch("password",pwd))
       args.fail = (resp)->
         if resp.code == 0
-          alert($_.ERR_MSG.NOT_VALID_USER)
+          IFAlert($_.ERR_MSG.NOT_VALID_USER)
           return
       $_.ajax(args)
 ).call this, window

@@ -115,8 +115,14 @@
     else
       {
         :amounts => 0,
-        :rate => "0.00%"
+        :rate => "+0.00%"
       }
     end
+  end
+  
+  def total
+    user = User.find_by_id(id)
+    stock_total_money = UserStock.get_stock_total_money(id)
+    user.money + stock_total_money
   end
 end
