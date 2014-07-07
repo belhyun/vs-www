@@ -26,17 +26,17 @@
     <table style="margin-top:22px;">
       <tr>
         <td class="align-right">
-          <%= link_to "/auth/facebook" do%>
-            <%= image_tag("login_facebook.png", :alt => "Fail")%> 
-          <%end%>
+            <%= image_tag("login_facebook.png", :alt => "Fail",
+                          :id => "fb-login")%> 
         </td>
         <td class="align-left">
-          <%= link_to "/auth/twitter" do%>
-            <%= image_tag("login_twitter.png", :alt => "Fail")%> 
-          <%end%>
+            <%= image_tag("login_twitter.png", :alt => "Fail",
+                          :id => "tw-login")%> 
         </td>
       <tr/>
     </table>
   </div>
 </div>
 <%= render :partial => 'users/modal' %>
+<div id="spinner"></div>
+<div id="modal"></div>
