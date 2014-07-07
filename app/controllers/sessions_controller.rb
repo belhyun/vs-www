@@ -8,20 +8,27 @@ class SessionsController < ApplicationController
     if !info.nil? 
       case info[:provider]
       when 'twitter'
-        #if !info[:info][:nickname].nil? && !User.fnid_by_nickname(info[:info][:nickname]).blank?
-        #end
-        gon.user = User.create_with(:name => info[:info][:name], :image => info[:info][:image], :sns_id => info[:uid],
-                                    :email => "#{info[:info][:name]}@twitter.com", :mem_type => TWITTER,
-                                    :money => Code::SEED_MONEY)
-          .find_or_create_by(:email => "#{info[:info][:name]}@twitter.com")
+        if User.where(["email = ? and mem_type <> 'T'", "#{info[:info][:name]}@twitter.com"]).blank?
+          gon.user = User.create_with(:name => info[:info][:name], :image => info[:info][:image], :sns_id => info[:uid],
+                                      :email => "#{info[:info][:name]}@twitter.com", :mem_type => TWITTER,
+                                      :money => Code::SEED_MONEY)
+            .find_or_create_by(:email => "#{info[:info][:name]}@twitter.com")
+          render :vs, :layout => false and return
+        else
+          redirect_to root_url(:error => "duplicate")
+        end
       when 'facebook'
+        if User.where(["email = ? and mem_type <> 'F'", info[:info][:email]]).blank?
           gon.user = User.create_with(:name => info[:info][:name], :image_url => info[:info][:image], :sns_id => info[:uid],
                            :email => info[:info][:email], :mem_type => FACEBOOK,
                            :money => Code::SEED_MONEY)
                   .find_or_create_by(:email => info[:info][:email])
+          render :vs, :layout => false and return
+        else
+          redirect_to root_url(:error => "duplicate")
+        end
       end
     end
-    render :vs, :layout => false
   end
 
   def vs

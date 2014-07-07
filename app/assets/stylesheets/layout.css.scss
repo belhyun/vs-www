@@ -2,3 +2,6 @@ body{
   font-family:"Droid Sans Fallbak" !important;
   background-color:#9c1819 !important;
 }
+.no-close .ui-dialog-titlebar-close {
+  display: none;
+}
