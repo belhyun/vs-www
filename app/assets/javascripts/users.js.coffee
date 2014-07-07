@@ -14,7 +14,7 @@
             return
         resizable: false
         title: "IF"
-        modal: true
+        modal: false
         dialogClass: "no-close"
       ).text message
       return
@@ -51,13 +51,14 @@
       if(!/^.{1,5}$/.test nick)
         IFAlert $_.ERR_MSG.NICK_FORMAT
         return
-
+      #$("#spinner,#modal").css("display","block")
       args = {}
       args.type = 'POST'
       args.dataType = 'JSON'
       args.url = "http://"+document.location.host+"/users/is_dup"
       args.data = {"email":email, "nick":nick}
       args.success = (resp)->
+        #$("#spinner,#modal").css("display","none")
         if resp.body.code == 2
           IFAlert $_.ERR_MSG.EMAIL_DUP
           return
@@ -65,6 +66,7 @@
           IFAlert $_.ERR_MSG.NICK_DUP
           return
       args.fail = ->
+        #$("#spinner,#modal").css("display","none")
         uri = new URI(document.URL).query(true)
         $_.redirect(URI("/auth/vs")
           .addSearch("email",email)
@@ -84,6 +86,7 @@
       if(_.isStrEmpty(pwd))
         IFAlert $_.ERR_MSG.PWD_EMPTY
         return
+      #$("#spinner,#modal").css("display","block")
       uri = new URI(document.URL).query(true)
       args = {}
       args.type = 'POST'
@@ -91,13 +94,21 @@
       args.url = "http://"+document.location.host+"/users/is_valid_user"
       args.data = {"password":pwd,"email":email}
       args.success = (resp)->
+        #$("#spinner,#modal").css("display","none")
         uri = new URI(document.URL).query(true)
         $_.redirect(URI("/auth/signin")
           .addSearch("email",email)
           .addSearch("password",pwd))
       args.fail = (resp)->
+        #$("#spinner,#modal").css("display","none")
         if resp.code == 0
           IFAlert($_.ERR_MSG.NOT_VALID_USER)
           return
       $_.ajax(args)
+    $("#fb-login").click ->
+      #$("#spinner,#modal").css("display","block")
+      location.href = "/auth/facebook"
+    $("#tw-login").click ->
+      #$("#spinner,#modal").css("display","block")
+      location.href = "/auth/twitter"
 ).call this, window

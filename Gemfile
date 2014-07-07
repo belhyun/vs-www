@@ -64,9 +64,9 @@ gem 'paperclip-compression'
 gem 'capistrano'
 gem 'capistrano-ext'
 gem 'iconv'
+gem 'execjs'
+gem 'therubyracer'
 group :production do
-  gem 'execjs'
-  gem 'therubyracer'
   gem 'unicorn'
 end
 gem 'bcrypt-ruby', :require => 'bcrypt'
