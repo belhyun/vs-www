@@ -32,7 +32,8 @@ class UsersController < ApplicationController
     user = User.find_by_id(@user_id)
     unless user.nil?
       result = user.as_json(:methods => 
-                                           [:weekly_change, :total_change, :total], 
+                                           [#:weekly_change,
+                                            :total_change, :total], 
                                              :include =>
                                            [{:photo => 
                                              {:methods => [:kinds]}},
@@ -95,7 +96,8 @@ class UsersController < ApplicationController
   end
 
   def change_pwd
-    if @user.update_attribute(:password, params[:pwd])
+    pwd = BCrypt::Engine.hash_secret(params[:pwd], User::BCRYPT_SALT)
+    if @user.update_attribute(:password, pwd)
       render :json => success("success")
     else
       render :json => fail(Code::MSG[:change_pwd_fail])

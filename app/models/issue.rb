@@ -10,7 +10,7 @@ class Issue < ActiveRecord::Base
   accepts_nested_attributes_for :stocks, :allow_destroy => true
   scope :open , lambda {where("end_date >= CURDATE()")} 
   scope :closed , lambda {where("end_date < CURDATE()")}
-  after_create :set_start_money, :push_issue_created
+  after_create :push_issue_created
   after_update :push_settled
   cattr_accessor :user_id
   scope :extra_info , lambda {as_json(:methods => [:is_joining, :user_money], 
