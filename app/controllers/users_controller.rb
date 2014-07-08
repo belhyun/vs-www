@@ -42,12 +42,12 @@ class UsersController < ApplicationController
 
       result[:logUserStocks] = user.logUserStocks.limit(10).order("created_at desc").as_json(:include => [
                                                {:stock => {:include => [:photo => {:methods => [:kinds]}], 
-                                                           :methods => [:user_stock_cnt, :last_week, :this_week, :total]}},
+                                                           :methods => [:user_stock_cnt, :total]}},
                                                 :issue => {:methods => [:is_joining], :include => 
                                                           [{:photo => {:methods => [:kinds]}}, 
                                                 :stocks => {
                                                             :include => [:photo => {:methods => [:kinds]}],
-                                                            :methods => [:user_stock_cnt, :last_week, :this_week, :total]}, 
+                                                            :methods => [:user_stock_cnt, :total]}, 
                                                 :photo => {:methods => [:kinds]}]}])
       render :json => success(result)
     else
