@@ -52,4 +52,8 @@ class Stock < ActiveRecord::Base
       user_stock.avg_money
     end
   end
+
+  def last_day_money
+    LogUserStock.where(:stock_id => id).last.stock_money
+  end
 end
