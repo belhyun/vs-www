@@ -7,7 +7,8 @@
       $("<div></div>").dialog(
         buttons:
           Ok: ->
-            $(this).dialog "close"
+            #$(this).dialog "Close"
+            $(this).remove()
             return
           close: (event, ui) ->
             $(this).remove()
@@ -39,40 +40,41 @@
         IFAlert $_.ERR_MSG.PWD_FORMAT
         return
 
-      nick = prompt("사용할 닉네임을 입력해주세요!")
-      if !nick
-        IFAlert "닉네임을 입력해 주세요"
-        return false
+      $("#if-signin").modal('show')
+      $(".btn-primary").click ->
+        nick = $("#vs-email").val()
+        if !nick
+          IFAlert "닉네임을 입력해 주세요"
+          return false
 
-      if(_.isStrEmpty(nick))
-        IFAlert $_.ERR_MSG.NICK_EMPTY
-        return
+        if(_.isStrEmpty(nick))
+          IFAlert $_.ERR_MSG.NICK_EMPTY
+          return
 
-      if(!/^.{1,5}$/.test nick)
-        IFAlert $_.ERR_MSG.NICK_FORMAT
-        return
-      #$("#spinner,#modal").css("display","block")
-      args = {}
-      args.type = 'POST'
-      args.dataType = 'JSON'
-      args.url = "http://"+document.location.host+"/users/is_dup"
-      args.data = {"email":email, "nick":nick}
-      args.success = (resp)->
-        #$("#spinner,#modal").css("display","none")
-        if resp.body.code == 2
-          IFAlert $_.ERR_MSG.EMAIL_DUP
+        if(!/^.{1,5}$/.test nick)
+          IFAlert $_.ERR_MSG.NICK_FORMAT
           return
-        else if resp.body.code == 1
-          IFAlert $_.ERR_MSG.NICK_DUP
-          return
-      args.fail = ->
-        #$("#spinner,#modal").css("display","none")
-        uri = new URI(document.URL).query(true)
-        $_.redirect(URI("/auth/vs")
-          .addSearch("email",email)
-          .addSearch("password",pwd)
-          .addSearch("nick",nick))
-      $_.ajax(args)
+        args = {}
+        args.type = 'POST'
+        args.dataType = 'JSON'
+        args.url = "http://"+document.location.host+"/users/is_dup"
+        args.data = {"email":email, "nick":nick}
+        args.success = (resp)->
+          #$("#spinner,#modal").css("display","none")
+          if resp.body.code == 2
+            IFAlert $_.ERR_MSG.EMAIL_DUP
+            return
+          else if resp.body.code == 1
+            IFAlert $_.ERR_MSG.NICK_DUP
+            return
+        args.fail = ->
+          #$("#spinner,#modal").css("display","none")
+          uri = new URI(document.URL).query(true)
+          $_.redirect(URI("/auth/vs")
+            .addSearch("email",email)
+            .addSearch("password",pwd)
+            .addSearch("nick",nick))
+        $_.ajax(args)
 
     $("#member-section #signin").click ->
       email = $("#input input[type=email]").val()

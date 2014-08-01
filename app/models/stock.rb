@@ -54,6 +54,11 @@ class Stock < ActiveRecord::Base
   end
 
   def last_day_money
-    LogUserStock.where(:stock_id => id).last.stock_money
+    log_user_stock = LogUserStock.where(:stock_id => id)
+    if log_user_stock.blank?
+      Stock.find_by_id(id).start_money 
+    else 
+      log_user_stock.last.stock_money 
+    end
   end
 end

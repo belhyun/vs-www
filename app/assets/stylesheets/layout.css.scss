@@ -31,3 +31,6 @@ body{
   z-index:5000;
   opacity:0.3;
 }
+.ui-dialog{
+  z-index:9999 !important;
+}

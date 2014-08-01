@@ -40,7 +40,7 @@ class IssuesController < ApplicationController
     @issues = Issue.find_by_id(params[:id])
       .as_json(:methods => [:is_joining, :user_money], 
     :include => [{:stocks => {:include => {:photo => {:methods => [:kinds]}}, 
-    :methods => [:user_stock_cnt, :this_week, :total, :buy_avg_money]}}, 
+    :methods => [:user_stock_cnt, :this_week, :total, :buy_avg_money, :last_day_money]}}, 
     :photo => {:methods => [:kinds]}])
     respond_to do |format|
       if is_auth?
@@ -77,6 +77,7 @@ class IssuesController < ApplicationController
   def settle
     issue_id = settle_params[:issue_id]
     issue = Issue.find_by_id(issue_id)
+    win_stock_name = issue.stocks.where("is_win = 1").first.name
     if issue.is_closed == 1
       if UserStock.is_not_settled(issue_id, @user_id)
         result = UserStock.settle(issue_id, @user_id)
@@ -85,6 +86,7 @@ class IssuesController < ApplicationController
             json = {}
             json[:user] = User.find_by_id(@user_id)
             json[:settle_money] = result[:settle_money]
+            json[:win_stock_name] = win_stock_name 
             render :json => success(json) and return
           else
             render :json => fail(Code::MSG[:transaction_fail]) and return

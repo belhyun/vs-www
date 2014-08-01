@@ -4,7 +4,13 @@ defaults: &defaults
   gcm_api_key: 'AIzaSyAl9DPDLH1bKJiPkTEcRJ7K89Yo5na1qZs'
   seed_money: 1000
   unauthorized: 'unauthorized'
+production_defaults: &production_defaults
+  twitter_key: "qPKi8TGEMTlJSd7Eip9X9MSUr"
+  twitter_secret: "Le3WT2GBbgmUXkmnCfx9fZ8vVgSrjVQWH6Qgyx2ffEKMc3MWbu"
+  gcm_api_key: 'AIzaSyAl9DPDLH1bKJiPkTEcRJ7K89Yo5na1qZs'
+  seed_money: 1000
+  unauthorized: 'unauthorized'
 development:
   <<: *defaults
 production:
-  <<: *defaults
+  <<: *production_defaults

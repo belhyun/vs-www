@@ -22,9 +22,9 @@ class Code
     :change_nick_fail => "닉네임 변경에 실패했습니다.",
     :nick_dup => "이미 사용 중인 닉네임입니다"
   }
-  COMMISION = 0.2
+  COMMISION = 0.05
   BUY = 1
   SELL = 2
-  SEED_MONEY = 999999999
-  BANKRUPTCY_STD_MONEY = 1000
+  SEED_MONEY = 100000
+  BANKRUPTCY_STD_MONEY = 100000
 end

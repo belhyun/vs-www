@@ -44,7 +44,7 @@ class StocksController < ApplicationController
         result[:body][:buy_stock_amounts] = stock_amounts
         result[:body][:issue] = Issue.open.find_by_id(issue_id).as_json(:methods => [:is_joining, :user_money], 
           :include => [{:stocks => {:include => {:photo => {:methods => [:kinds]}}, 
-          :methods => [:user_stock_cnt, :this_week, :total, :buy_avg_money]}}, 
+          :methods => [:user_stock_cnt, :this_week, :total, :buy_avg_money, :last_day_money]}}, 
           :photo => {:methods => [:kinds]}])
 
         render :json => result and return
@@ -90,7 +90,7 @@ class StocksController < ApplicationController
          result[:body][:sell_stock_amounts] = stock_amounts
          result[:body][:issue] = Issue.open.find_by_id(issue_id).as_json(:methods => [:is_joining, :user_money], 
           :include => [{:stocks => {:include => {:photo => {:methods => [:kinds]}}, 
-          :methods => [:user_stock_cnt, :this_week, :total, :buy_avg_money]}}, 
+          :methods => [:user_stock_cnt, :this_week, :total, :buy_avg_money, :last_day_money]}}, 
           :photo => {:methods => [:kinds]}])
 
          render :json => result and return
