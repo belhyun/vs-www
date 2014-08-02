@@ -13,7 +13,7 @@ set :output, "/home/www/rails_app/vs-www/log/cron_log.log"
 #   rake "some:great:rake:task"
 # end
 #
-set :environment, 'development'
+set :environment, 'production'
 every 1.days, :at => '1:00 am' do
   runner "LogUser.log_user_info"
 end
