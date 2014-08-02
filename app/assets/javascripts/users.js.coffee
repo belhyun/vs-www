@@ -6,15 +6,15 @@
     IFAlert = (message) ->
       $("<div></div>").dialog(
         buttons:
-          Ok: ->
+          OK: ->
             #$(this).dialog "Close"
             $(this).remove()
             return
-          close: (event, ui) ->
+          CLOSE: (event, ui) ->
             $(this).remove()
             return
         resizable: false
-        title: "IF"
+        title: "WARNING"
         modal: false
         dialogClass: "no-close"
       ).text message

@@ -71,7 +71,7 @@ class UsersController < ApplicationController
   end
 
   def bankruptcy
-    if @user.money < Code::BANKRUPTCY_STD_MONEY &&  UserStock.has_stocks?(@user_id) && (@user.last_bankruptcy.nil? || User.is_in_week(@user.last_bankruptcy))
+    if @user.money < Code::BANKRUPTCY_LIMIT_MONEY &&  UserStock.has_stocks?(@user_id) && (@user.last_bankruptcy.nil? || User.is_in_week(@user.last_bankruptcy))
       if @user.update_attributes(:last_bankruptcy => Time.now) && User.update(@user_id, :money => Code::BANKRUPTCY_STD_MONEY)
         redirect_to user_url(@user, :acc_token => params[:acc_token]) 
       else

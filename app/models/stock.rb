@@ -17,7 +17,7 @@ class Stock < ActiveRecord::Base
 
   def self.update_money(id)
     Stock.find(:all, :conditions => ["issue_id = ?",id]).each{|stock|
-      stock.update_attribute(:money, stock.issue.money * UserStock.count_by_stock(stock.id) / UserStock.count_by_issue(id).ceil.to_i)
+      stock.update_attribute(:money, (stock.issue.money * UserStock.count_by_stock(stock.id) / UserStock.count_by_issue(id).to_f).ceil.to_i)
     }
   end
 
@@ -54,11 +54,11 @@ class Stock < ActiveRecord::Base
   end
 
   def last_day_money
-    log_user_stock = LogUserStock.where(:stock_id => id)
-    if log_user_stock.blank?
+    log_stock = LogStock.where(:stock_id => id)
+    if log_stock.blank?
       Stock.find_by_id(id).start_money 
     else 
-      log_user_stock.last.stock_money 
+      log_stock.last.stock_money 
     end
   end
 end

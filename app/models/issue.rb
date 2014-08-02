@@ -8,7 +8,7 @@ class Issue < ActiveRecord::Base
 
   accepts_nested_attributes_for :photo, :allow_destroy => true
   accepts_nested_attributes_for :stocks, :allow_destroy => true
-  scope :open , lambda {where("end_date >= CURDATE()")} 
+  scope :open , lambda {where("end_date >= CURDATE() AND is_opened = 1")} 
   scope :closed , lambda {where("end_date < CURDATE()")}
   after_create :push_issue_created
   after_update :push_settled

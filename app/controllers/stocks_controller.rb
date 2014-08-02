@@ -103,11 +103,13 @@ class StocksController < ApplicationController
   end
 
   def show
-    result = Hash.new
-    result[:last_week] = LogUserStock.get_last_week_stock_amounts(show_params[:id])
-    result[:this_week] = LogUserStock.get_this_week_stock_amounts(show_params[:id])
-    result[:total] = LogUserStock.total_stock_amounts(show_params[:id])
-    render :json => success(result)
+    @stock = Stock.find_by_id(params[:id])
+    if @stock.nil?
+      render :json => fail(Code::MSG[:buy_transaction_fail]) and return
+    elsif @stock.money == 0
+      render :json => fail(Code::MSG[:stock_money_zero]) and return
+    end
+    render :json => success(@stock)
   end
 
   private
@@ -137,5 +139,9 @@ class StocksController < ApplicationController
     if !params.has_key?(:stock_amounts) || params[:stock_amounts].to_i == 0
       render :json => fail(Code::MSG[:stock_amounts_is_invaild]) and return
     end
+  end
+
+  def money
+    
   end
 end
