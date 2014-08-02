@@ -70,3 +70,4 @@ group :production do
   gem 'unicorn'
 end
 gem 'bcrypt-ruby', :require => 'bcrypt'
+gem 'newrelic_rpm'
