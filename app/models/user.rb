@@ -1,9 +1,9 @@
  class User < ActiveRecord::Base
   attr_protected
   before_create :gen_token, :gen_expires, :gen_identity, :encrypt_pwd
-  has_many :stocks, :through => :userStocks
-  has_many :userStocks
-  has_many :logUserStocks
+  has_many :stocks, :through => :userStocks, :dependent => :destroy
+  has_many :userStocks, :dependent => :destroy
+  has_many :logUserStocks, :dependent => :destroy
   scope :user_money , lambda {|user_id| find_by_id(user_id).money}
   scope :find_by_acc_token, lambda{|acc_token| find(:first, :conditions => ["acc_token = ?", acc_token])}
   scope :is_in_week, lambda{|t| (Time.now - t)/ 7.day > 1}
