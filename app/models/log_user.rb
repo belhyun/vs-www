@@ -16,7 +16,7 @@ t.*, @rownum := @rownum + 1 as rank").
       begin
         user = User.find_by_id(user.id)
         stock_total_money = UserStock.get_stock_total_money(user.id)
-        unless user.nil? 
+        unless user.nil?  && user.is_admin
           LogUser.create!(:user_id => user.id, :user_money => user.money + stock_total_money)
         end
       rescue
