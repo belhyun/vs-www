@@ -75,29 +75,31 @@ class IssuesController < ApplicationController
   end
 
   def settle
-    issue_id = settle_params[:issue_id]
-    issue = Issue.find_by_id(issue_id)
-    win_stock_name = issue.stocks.where("is_win = 1").first.name
-    if issue.is_closed == 1
-      if UserStock.is_not_settled(issue_id, @user_id)
-        result = UserStock.settle(issue_id, @user_id)
-        unless result.nil?
-          if User.update_money(@user_id, result[:plus_money])
-            json = {}
-            json[:user] = User.find_by_id(@user_id)
-            json[:settle_money] = result[:settle_money]
-            json[:win_stock_name] = win_stock_name 
-            render :json => success(json) and return
-          else
-            render :json => fail(Code::MSG[:transaction_fail]) and return
+    ActiveRecord::Base.transaction do
+      issue_id = settle_params[:issue_id]
+      issue = Issue.find_by_id(issue_id)
+      win_stock_name = issue.stocks.where("is_win = 1").first.name
+      if issue.is_closed == 1
+        if UserStock.is_not_settled(issue_id, @user_id)
+          result = UserStock.settle(issue_id, @user_id)
+          unless result.nil?
+            if User.update_money(@user_id, result[:plus_money])
+              json = {}
+              json[:user] = User.find_by_id(@user_id)
+              json[:settle_money] = result[:settle_money]
+              json[:win_stock_name] = win_stock_name 
+              render :json => success(json) and return
+            else
+              render :json => fail(Code::MSG[:transaction_fail]) and return
+            end
           end
+          render :json => fail(Code::MSG[:settle_fail]) and return
+        else
+          render :json => fail(Code::MSG[:settle_done]) and return
         end
-        render :json => fail(Code::MSG[:settle_fail]) and return
       else
-        render :json => fail(Code::MSG[:settle_done]) and return
+        render :json => fail(Code::MSG[:settle_ready]) and return
       end
-    else
-      render :json => fail(Code::MSG[:settle_ready]) and return
     end
   end
 
