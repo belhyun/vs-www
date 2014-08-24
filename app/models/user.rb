@@ -104,10 +104,12 @@
   end
 
   def total_change
-    last_day_money = LogUser.select('user_money')
-      .where("user_id = #{id}").order("created_at desc").limit(1)
-    if !last_day_money.blank?
-      last_day_money = last_day_money.first.user_money
+    #last_day_money = LogUser.select('user_money')
+    #  .where("user_id = #{id}").order("created_at desc").limit(1)
+    user = User.find_by_id(id)
+    last_day_money = user.money
+    if last_day_money > 0
+      #last_day_money = last_day_money.first.user_money
       {
         :amounts => last_day_money - Code::SEED_MONEY,
         :rate => sprintf("%+.2f\%",((last_day_money.to_f/Code::SEED_MONEY) -1) *100)
