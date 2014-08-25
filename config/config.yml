@@ -3,14 +3,14 @@ defaults: &defaults
   twitter_secret: "Le3WT2GBbgmUXkmnCfx9fZ8vVgSrjVQWH6Qgyx2ffEKMc3MWbu"
   facebook_key: "497472560379388"
   facebook_secret: "f1275ec765257e7f5f4d99201f0cd493"
-  gcm_api_key: 'AIzaSyBs0BTP2g7rYadLBWRoGtAh5DMn2VY_MTY'
+  gcm_api_key: 'AIzaSyBpBOWIFtXjZ4qoj6GyT3Cr9aEPOdZgqdo'
   unauthorized: 'unauthorized'
 production_defaults: &production_defaults
   twitter_key: "VfWJkU3nZDfrsXCoPzPuXcNdY"
   twitter_secret: "SYenSWMNoVR52cJKGz2r9XYA8rdEYxxa5lRcc75s6CJoTQ17Vk"
   facebook_key: "570765009699553"
   facebook_secret: "e8b871c0de1ea733fedff691216e32cb"
-  gcm_api_key: 'AIzaSyBs0BTP2g7rYadLBWRoGtAh5DMn2VY_MTY'
+  gcm_api_key: 'AIzaSyBpBOWIFtXjZ4qoj6GyT3Cr9aEPOdZgqdo'
   unauthorized: 'unauthorized'
 development:
   <<: *defaults

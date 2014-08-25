@@ -28,7 +28,7 @@ class GcmsController < ApplicationController
     if response[:status_code] == 200 && response[:response] == "success"
       render :json =>  success(Code::MSG[:gcm_send_success]) and return
     end
-    render :json => fail(Code::MSG[:gcm_send_fail]) and return
+    render :json => fail(response) and return
   end
 
   def state

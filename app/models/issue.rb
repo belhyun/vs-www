@@ -43,7 +43,7 @@ class Issue < ActiveRecord::Base
         .reject{|a|a[:gcm_id].nil?||a[:gcm_id] == 0}.map{|user| user.gcm_id}
       options = {
         data: {
-          :msg => "이슈 정산이 시작되었습니다."
+          :msg => "만료된 이슈가 있습니다.\nCLOSED 탭에서 종료된 이슈를 터치하세요."
         },
         :collapse_key => "issue_settled"
       }
