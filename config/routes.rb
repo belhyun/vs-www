@@ -15,6 +15,7 @@ VsWww::Application.routes.draw do
   get 'auth/signin', to: 'sessions#signin'
   get 'auth/logout', to: 'sessions#logout'
   get 'versions', to: 'versions#index'
+  post 'errors/send_msg', to: 'errors#send_msg'
 
   resources :users do
     collection do
