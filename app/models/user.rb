@@ -107,8 +107,7 @@
     #last_day_money = LogUser.select('user_money')
     #  .where("user_id = #{id}").order("created_at desc").limit(1)
     user = User.find_by_id(id)
-    #last_day_money = user.money
-    last_day_money = UserStock.get_stock_total_money(id)
+    last_day_money = UserStock.get_stock_total_money(id) + user.money
 
     if last_day_money > 0
       #last_day_money = last_day_money.first.user_money
