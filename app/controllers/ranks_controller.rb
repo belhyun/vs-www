@@ -8,7 +8,7 @@ class RanksController < ApplicationController
     if is_auth?
       @success = success(@users)
       @success[:current_user] = @ranks.select{|rank| rank.is_me == 1}.first.as_json(:include => [:user => {:include =>{:photo => {:methods => :kinds}}}])
-      @success[:total_cnt] = LogUser.today.count
+      @success[:total_cnt] = LogUser.today.limit(99).count
       @success[:per_page] = 10
       @success[:page] = params[:page].to_i
       render :json => @success
