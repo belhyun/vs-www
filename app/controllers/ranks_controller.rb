@@ -2,7 +2,7 @@ class RanksController < ApplicationController
   skip_before_filter :verify_authenticity_token
   def index 
     LogUser.log_user_id = @user_id
-    @ranks = LogUser.rank(@user_id)
+    @ranks = LogUser.rank(@user_id).limit(99)
     @users = @ranks.paginate(:page => params[:page], :per_page => 10)
              .as_json(:include => [:user => {:include =>{:photo => {:methods => :kinds}}}])
     if is_auth?

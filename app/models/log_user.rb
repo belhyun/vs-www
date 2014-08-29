@@ -5,7 +5,9 @@ class LogUser < ActiveRecord::Base
   scope :rank , lambda{|user_id| select("t.name, t.user_id = #{user_id} as is_me, 
 t.*, @rownum := @rownum + 1 as rank").
   from("( 
-        select log_users.*, users.name, users.nickname from log_users INNER JOIN `users` ON `users`.`id` = `log_users`.`user_id` WHERE (DATE_FORMAT(created_at, '%Y-%m-%d') = CURDATE()) order by user_money desc
+        select log_users.*, users.name, users.nickname from log_users 
+        INNER JOIN `users` ON `users`.`id` = `log_users`.`user_id` WHERE 
+        (DATE_FORMAT(created_at, '%Y-%m-%d') = CURDATE()) order by user_money desc
       ) t,
       (select @rownum := 0) b")
    }
