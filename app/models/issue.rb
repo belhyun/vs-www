@@ -20,7 +20,7 @@ class Issue < ActiveRecord::Base
 
   def push_issue_created
     gcm = GCM.new(APP_CONFIG['gcm_api_key'])
-    if !gcm.nil?
+    if !gcm.nil? && is_opened
       reg_ids = User.all.select(:gcm_id).reject{|a|a[:gcm_id].nil?||a[:gcm_id] == 0}.map{|user| user.gcm_id}
       options = {
         data: {
@@ -84,6 +84,10 @@ class Issue < ActiveRecord::Base
   def user_money
     user = User.find_by_id(Issue.user_id)
     if user.nil? then 0 else user.money end
+  end
+
+  def has_win_stock
+    return stocks.reject{|ele|ele.is_win == 1}.count
   end
 
 =begin

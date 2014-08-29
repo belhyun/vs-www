@@ -79,7 +79,7 @@ class IssuesController < ApplicationController
       issue_id = settle_params[:issue_id]
       issue = Issue.find_by_id(issue_id)
       win_stock_name = issue.stocks.where("is_win = 1").first.name
-      if issue.is_closed == 1
+      if issue.is_closed == 1 && issue.has_win_stock
         if UserStock.is_not_settled(issue_id, @user_id)
           result = UserStock.settle(issue_id, @user_id)
           unless result.nil?
