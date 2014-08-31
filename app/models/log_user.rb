@@ -7,7 +7,7 @@ t.*, @rownum := @rownum + 1 as rank").
   from("( 
         select log_users.*, users.name, users.nickname from log_users 
         INNER JOIN `users` ON `users`.`id` = `log_users`.`user_id` WHERE 
-        (DATE_FORMAT(created_at, '%Y-%m-%d') = CURDATE()) order by user_money desc
+        (DATE_FORMAT(created_at, '%Y-%m-%d') = CURDATE()) order by user_money desc limit 10
       ) t,
       (select @rownum := 0) b")
    }
