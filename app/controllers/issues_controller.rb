@@ -64,7 +64,7 @@ class IssuesController < ApplicationController
     respond_to do |format|
       if is_auth?
         @success = success(@issues)
-        @success[:total_cnt] = @closed_issues.as_json(:methods => [:is_joining, :is_settled]).to_a.reject{|o| o["is_joining"] === false || o["is_settled"] === true}.count
+        @success[:total_cnt] = @issues.count
         @success[:per_page] = Issue::PER_PAGE
         @success[:page] = params[:page].to_i
         format.json{render :json => @success}
