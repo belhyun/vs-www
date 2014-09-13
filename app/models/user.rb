@@ -6,10 +6,13 @@
   has_many :logUserStocks, :dependent => :destroy
   scope :user_money , lambda {|user_id| find_by_id(user_id).money}
   scope :find_by_acc_token, lambda{|acc_token| find(:first, :conditions => ["acc_token = ?", acc_token])}
-  scope :is_in_week, lambda{|t| (Time.now - t)/ 7.day > 1}
   belongs_to :photo
   accepts_nested_attributes_for :photo, :allow_destroy => true
   BCRYPT_SALT = "$2a$10$XriDBfZd5.1BL8RJJTJ3iu"
+
+  def self.is_after_a_week(time)
+    (Time.now - time)/7.days > 1.0
+  end
 
   def encrypt_pwd
     if password.present?
