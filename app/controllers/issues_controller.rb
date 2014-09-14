@@ -55,7 +55,7 @@ class IssuesController < ApplicationController
   def closed
     Issue.user_id = @user_id
     @closed_issues = Issue.closed
-    @issues = @closed_issues.paginate(:page => params[:page], :per_page => Issue::PER_PAGE)
+    @issues = @closed_issues
       .as_json(:methods => [:is_joining, :is_settled], 
     :include => [{:stocks => {:include => {:photo => {:methods => [:kinds]}}, 
     :methods => [:user_stock_cnt, :last_week, :this_week, :total]}}, 
@@ -64,7 +64,7 @@ class IssuesController < ApplicationController
     respond_to do |format|
       if is_auth?
         @success = success(@issues)
-        @success[:total_cnt] = @closed_issues.to_a.reject{|o| o["is_joining"] === false || o["is_settled"] === true}.count
+        @success[:total_cnt] = @closed_issues.count
         @success[:per_page] = Issue::PER_PAGE
         @success[:page] = params[:page].to_i
         format.json{render :json => @success}
