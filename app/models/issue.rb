@@ -10,7 +10,7 @@ class Issue < ActiveRecord::Base
   accepts_nested_attributes_for :stocks, :allow_destroy => true
   scope :open , lambda {where("end_date >= CURDATE() AND is_opened = 1").order('created_at DESC')} 
   scope :closed , lambda {where("end_date < CURDATE()").order('created_at DESC')}
-  after_create :push_issue_created
+  after_update :push_issue_created
   after_update :push_settled
   cattr_accessor :user_id
   scope :extra_info , lambda {as_json(:methods => [:is_joining, :user_money], 
@@ -20,7 +20,7 @@ class Issue < ActiveRecord::Base
 
   def push_issue_created
     gcm = GCM.new(APP_CONFIG['gcm_api_key'])
-    if !gcm.nil? && is_opened
+    if !gcm.nil? && is_opened && push_status == 'Y'
       reg_ids = User.all.select(:gcm_id).reject{|a|a[:gcm_id].nil?||a[:gcm_id] == 0}.map{|user| user.gcm_id}
       options = {
         data: {
@@ -38,7 +38,7 @@ class Issue < ActiveRecord::Base
 
   def push_settled
     gcm = GCM.new(APP_CONFIG['gcm_api_key'])
-    if is_closed
+    if !gcm.nil? && is_closed
       reg_ids = UserStock.all.select("users.gcm_id").joins(:user).where(["issue_id = #{id} AND user_stocks.stock_amounts > 0 AND users.is_push = 1"])
         .reject{|a|a[:gcm_id].nil?||a[:gcm_id] == 0}.map{|user| user.gcm_id}
       options = {

@@ -7,6 +7,7 @@ ActiveAdmin.register Issue do
       f.input :money, :label => "이슈머니"
       f.input :is_closed, :as => :boolean, :label => "정산시작여부"
       f.input :is_opened, :as => :boolean, :label => "오픈여부"
+      f.input :push_status, :as => :select, :collection => ['N','Y','A'], :label => "푸쉬발송여부"
       f.has_many :photo do |cf|
         cf.input :image
       end
