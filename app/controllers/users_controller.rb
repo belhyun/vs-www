@@ -72,7 +72,7 @@ class UsersController < ApplicationController
 
   def bankruptcy
     if @user.total <= Code::BANKRUPTCY_LIMIT_MONEY && (@user.last_bankruptcy.nil? || User.is_after_a_week(@user.last_bankruptcy))
-      if @user.update_attributes(:last_bankruptcy => Time.now) && User.update_money(@user_id, :money => Code::BANKRUPTCY_STD_MONEY - @user.total)
+      if @user.update_attributes(:last_bankruptcy => Time.now) && User.update_money(@user_id, Code::BANKRUPTCY_STD_MONEY - @user.total)
         redirect_to user_url(@user, :acc_token => params[:acc_token]) 
       else
         render :json =>fail(Code::MSG[:transaction_fail])
