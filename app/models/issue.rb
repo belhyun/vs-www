@@ -38,7 +38,7 @@ class Issue < ActiveRecord::Base
 
   def push_settled
     gcm = GCM.new(APP_CONFIG['gcm_api_key'])
-    if !gcm.nil? && is_closed
+    if !gcm.nil? && is_closed && push_status == 'Y'
       reg_ids = UserStock.all.select("users.gcm_id").joins(:user).where(["issue_id = #{id} AND user_stocks.stock_amounts > 0 AND users.is_push = 1"])
         .reject{|a|a[:gcm_id].nil?||a[:gcm_id] == 0}.map{|user| user.gcm_id}
       options = {
