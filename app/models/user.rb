@@ -27,7 +27,7 @@
     end
   end
   def gen_expires
-    self.expires = Time.now + 180.days
+    self.expires = Time.now + 365.days
   end
   def gen_identity
     case mem_type
