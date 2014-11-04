@@ -1,0 +1,5 @@
+<%= form_tag("/gcms/send_by_admin", method: "post") do %>
+  <%= label_tag(:q, "문구 : ", :color => "white") %>
+  <%= text_field_tag(:q) %>
+  <%= submit_tag("전송") %>
+<% end %>

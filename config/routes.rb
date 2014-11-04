@@ -34,6 +34,8 @@ VsWww::Application.routes.draw do
       post 'reg'
       post 'state'
       get 'send_msg'
+      get 'show'
+      post 'send_by_admin'
     end
   end
 
