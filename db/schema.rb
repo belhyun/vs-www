@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140611012654) do
+ActiveRecord::Schema.define(version: 20141107020027) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -46,14 +46,21 @@ ActiveRecord::Schema.define(version: 20140611012654) do
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
+  create_table "errors", force: true do |t|
+    t.text "msg"
+  end
+
   create_table "issues", force: true do |t|
-    t.string  "title"
-    t.text    "description"
-    t.date    "end_date"
-    t.integer "stocks_count",           default: 0
-    t.integer "money"
-    t.integer "photo_id"
-    t.integer "is_closed",    limit: 1, default: 0
+    t.string   "title"
+    t.text     "description"
+    t.date     "end_date"
+    t.integer  "stocks_count",            default: 0
+    t.integer  "money"
+    t.integer  "photo_id"
+    t.integer  "is_closed",    limit: 1,  default: 0
+    t.integer  "is_opened",    limit: 1
+    t.datetime "created_at"
+    t.string   "push_status",  limit: 10, default: "N"
   end
 
   create_table "log_stocks", force: true do |t|
@@ -123,6 +130,7 @@ ActiveRecord::Schema.define(version: 20140611012654) do
     t.integer  "issue_id"
     t.integer  "stock_amounts"
     t.integer  "is_settled",    limit: 1, default: 0
+    t.integer  "avg_money",               default: 0
   end
 
   add_index "user_stocks", ["user_id"], name: "index_user_stocks_on_user_id", using: :btree
@@ -136,13 +144,15 @@ ActiveRecord::Schema.define(version: 20140611012654) do
     t.datetime "expires"
     t.integer  "money"
     t.string   "nickname"
-    t.string   "mem_type",        limit: 10
+    t.string   "mem_type",          limit: 10
     t.string   "password"
     t.datetime "last_bankruptcy"
     t.datetime "last_work"
     t.integer  "photo_id"
     t.text     "gcm_id"
-    t.integer  "is_push",         limit: 1
+    t.integer  "is_push",           limit: 1,  default: 1
+    t.integer  "is_admin",          limit: 1,  default: 0
+    t.date     "kakao_reward_date"
   end
 
   create_table "versions", force: true do |t|

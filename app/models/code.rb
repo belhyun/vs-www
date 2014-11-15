@@ -20,7 +20,8 @@ class Code
     :settle_ready => "정산 준비 중입니다",
     :change_pwd_fail => "비밀번호 변경에 실패했습니다.",
     :change_nick_fail => "닉네임 변경에 실패했습니다.",
-    :nick_dup => "이미 사용 중인 닉네임입니다"
+    :nick_dup => "이미 사용 중인 닉네임입니다",
+    :already_get_kakao_reward => "이미 카카오 리워드를 받았습니다."
   }
   COMMISION = 0.05
   BUY = 1
@@ -28,4 +29,5 @@ class Code
   SEED_MONEY = 100000
   BANKRUPTCY_STD_MONEY = 100000
   BANKRUPTCY_LIMIT_MONEY = 30000
+  KAKAO_INVITE_FRIEND_REWARD = 100
 end

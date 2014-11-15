@@ -26,6 +26,7 @@ VsWww::Application.routes.draw do
       get 'work'
       post 'change_pwd'
       post 'change_nick'
+      post 'kakao_reward'
     end
   end
   

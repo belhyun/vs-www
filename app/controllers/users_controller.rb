@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
-  skip_before_filter :verify_authenticity_token, :only => [:is_dup, :image, :bankruptcy, :work, :gcm, :change_pwd, :change_nick]
+  skip_before_filter :verify_authenticity_token, :only => [:is_dup, :image, :bankruptcy, :work, :gcm, :change_pwd, :change_nick, :kakao_reward]
   before_action :set_user, :only => [:bankruptcy, :work]
+  include UsersHelper
 
   def index
   end
@@ -71,27 +72,31 @@ class UsersController < ApplicationController
   end
 
   def bankruptcy
-    if @user.total <= Code::BANKRUPTCY_LIMIT_MONEY && (@user.last_bankruptcy.nil? || User.is_after_a_week(@user.last_bankruptcy))
-      if @user.update_attributes(:last_bankruptcy => Time.now) && User.update_money(@user_id, Code::BANKRUPTCY_STD_MONEY - @user.total)
-        redirect_to user_url(@user, :acc_token => params[:acc_token]) 
+    ActiveRecord::Base.transaction do
+      if @user.total <= Code::BANKRUPTCY_LIMIT_MONEY && (@user.last_bankruptcy.nil? || User.is_after_a_week(@user.last_bankruptcy))
+        if @user.update_attributes(:last_bankruptcy => Time.now) && User.update_money(@user_id, Code::BANKRUPTCY_STD_MONEY - @user.total)
+          redirect_to user_url(@user, :acc_token => params[:acc_token]) 
+        else
+          render :json =>fail(Code::MSG[:transaction_fail])
+        end
       else
-        render :json =>fail(Code::MSG[:transaction_fail])
+        render :json =>fail(Code::MSG[:not_bankruptcy])
       end
-    else
-      render :json =>fail(Code::MSG[:not_bankruptcy])
     end
   end
 
   def work
-    work = Work.find_by_id(work_params[:work_id])
-    if @user.last_work.nil? || (Time.now - @user.last_work)/86400.to_f > 1.0
-      if @user.update_attributes(:last_work => Time.now) && User.update_money(@user_id, work.give_money)
-        redirect_to user_url(@user, :acc_token => params[:acc_token]) 
+    ActiveRecord::Base.transaction do
+      work = Work.find_by_id(work_params[:work_id])
+      if @user.last_work.nil? || is_in_a_day(@user.last_work) 
+        if @user.update_attributes(:last_work => Time.now) && User.update_money(@user_id, work.give_money)
+          redirect_to user_url(@user, :acc_token => params[:acc_token]) 
+        else
+          render :json =>fail(Code::MSG[:transaction_fail])
+        end
       else
-        render :json =>fail(Code::MSG[:transaction_fail])
+        render :json =>fail(Code::MSG[:not_work])
       end
-    else
-      render :json =>fail(Code::MSG[:not_work])
     end
   end
 
@@ -114,6 +119,20 @@ class UsersController < ApplicationController
       render :json => success({:nick => nickname})
     else
       render :json => fail(Code::MSG[:change_nick_fail])
+    end
+  end
+
+  def kakao_reward
+    ActiveRecord::Base.transaction do
+      if @user.kakao_reward_date.nil? || is_in_a_day(@user.kakao_reward_date)
+        if @user.update_attributes(:kakao_reward_date => Time.now) && User.update_money(@user_id, Code::KAKAO_INVITE_FRIEND_REWARD)
+          redirect_to user_url(@user, :acc_token => params[:acc_token]) 
+        else
+          render :json =>fail(Code::MSG[:transaction_fail])
+        end
+      else
+        render :json =>fail(Code::MSG[:already_get_kakao_reward])
+      end
     end
   end
 
