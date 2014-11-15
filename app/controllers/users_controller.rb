@@ -88,7 +88,7 @@ class UsersController < ApplicationController
   def work
     ActiveRecord::Base.transaction do
       work = Work.find_by_id(work_params[:work_id])
-      if @user.last_work.nil? || is_in_a_day(@user.last_work) 
+      if @user.last_work.nil? || !is_in_a_day(@user.last_work) 
         if @user.update_attributes(:last_work => Time.now) && User.update_money(@user_id, work.give_money)
           redirect_to user_url(@user, :acc_token => params[:acc_token]) 
         else
@@ -124,7 +124,7 @@ class UsersController < ApplicationController
 
   def kakao_reward
     ActiveRecord::Base.transaction do
-      if @user.kakao_reward_date.nil? || is_in_a_day(@user.kakao_reward_date)
+      if @user.kakao_reward_date.nil? || !is_in_a_day(@user.kakao_reward_date)
         if @user.update_attributes(:kakao_reward_date => Time.now) && User.update_money(@user_id, Code::KAKAO_INVITE_FRIEND_REWARD)
           redirect_to user_url(@user, :acc_token => params[:acc_token]) 
         else
